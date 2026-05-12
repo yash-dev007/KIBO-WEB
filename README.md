@@ -1,6 +1,8 @@
 # KIBO Companion Web Interface
 
-<img src="./public/assets/Hero_Img.png" alt="KIBO Banner" width="600" />
+<p align="center">
+  <img src="./public/assets/Hero_Img.png" alt="KIBO Banner" width="600" />
+</p>
 
 > **A persistent digital life · Reactive · Evolving · Personal · Memory**
 
