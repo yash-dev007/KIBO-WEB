@@ -50,7 +50,7 @@ export function Footer() {
           </span>
         </div>
         <div className="mt-[60px] pt-0 pb-[12px] border-t border-[var(--line)] overflow-x-hidden overflow-y-visible">
-          <div className="font-sans font-black text-[clamp(70px,13vw,200px)] tracking-[-0.04em] leading-[1.05] text-ink whitespace-nowrap mt-[30px] pb-[0.18em]">
+          <div className="font-sans font-black text-[clamp(70px,13vw,200px)] tracking-[-0.04em] leading-[1.05] text-ink whitespace-nowrap mt-[30px] pb-[0.18em] pr-[0.1em]">
             KIBO<em className="font-serif italic font-medium text-coral"> Companion</em>.
           </div>
         </div>
