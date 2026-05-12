@@ -1,14 +1,14 @@
 export function SideRails() {
   return (
     <>
-      <div className="fixed top-0 bottom-0 right-0 w-[36px] z-[3] pointer-events-none flex items-center justify-center border-l border-[var(--line-faint)] hidden xl:flex">
-        <span className="font-sans text-[10px] font-semibold tracking-[0.42em] uppercase text-ink-faint rotate-180 whitespace-nowrap" style={{ writingMode: 'vertical-rl' }}>
-          KIBO — A Persistant Digital Life · Vol. 01 · 2026
+      <div className="pointer-events-none fixed bottom-8 right-0 top-[120px] z-[3] hidden w-[36px] items-center justify-center overflow-hidden border-l border-[var(--line-faint)] min-[1800px]:flex">
+        <span className="rotate-180 whitespace-nowrap font-sans text-[9px] font-semibold uppercase tracking-[0.34em] text-ink-faint" style={{ writingMode: "vertical-rl" }}>
+          KIBO / desktop companion
         </span>
       </div>
-      <div className="fixed top-0 bottom-0 left-0 w-[36px] z-[3] pointer-events-none flex items-center justify-center border-r border-[var(--line-faint)] hidden xl:flex">
-        <span className="font-sans text-[10px] font-semibold tracking-[0.42em] uppercase text-ink-faint whitespace-nowrap" style={{ writingMode: 'vertical-rl' }}>
-          Reactive · Evolving · Personal · Memory
+      <div className="pointer-events-none fixed bottom-8 left-0 top-[120px] z-[3] hidden w-[36px] items-center justify-center overflow-hidden border-r border-[var(--line-faint)] min-[1800px]:flex">
+        <span className="whitespace-nowrap font-sans text-[9px] font-semibold uppercase tracking-[0.34em] text-ink-faint" style={{ writingMode: "vertical-rl" }}>
+          Voice / Memory / Privacy
         </span>
       </div>
     </>

@@ -12,8 +12,8 @@ const playfair = Playfair_Display({ subsets: ["latin"], style: ["normal", "itali
 const jetbrains = JetBrains_Mono({ subsets: ["latin"], variable: "--font-jetbrains" });
 
 export const metadata: Metadata = {
-  title: "KIBO — A desktop companion that lives on your screen",
-  description: "KIBO is a new class of interface—a persistent, reactive, and evolving digital companion.",
+  title: "KIBO - A desktop companion that lives on your screen",
+  description: "KIBO is a frameless animated desktop companion with voice, neural TTS, long-term memory, and local-first fallbacks.",
 };
 
 export default function RootLayout({
@@ -25,12 +25,10 @@ export default function RootLayout({
     <html lang="en" className="scroll-smooth">
       <body className={`${inter.variable} ${interTight.variable} ${playfair.variable} ${jetbrains.variable} font-body`}>
         <SideRails />
-        <div className="relative z-10 shell">
+        <div className="shell relative z-10">
           <Topbar />
           <StickyNav />
-          <main>
-            {children}
-          </main>
+          <main>{children}</main>
           <Footer />
         </div>
       </body>

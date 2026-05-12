@@ -1,192 +1,283 @@
+import {
+  BellOff,
+  Brain,
+  Cpu,
+  Database,
+  Download,
+  Github,
+  HeartPulse,
+  Mic2,
+  Play,
+  ShieldCheck,
+  Sparkles,
+  Volume2,
+} from "lucide-react";
 import { Reveal } from "@/components/ui/Reveal";
+
+const proof = [
+  { label: "Voice round-trip", value: "~1.2s" },
+  { label: "Tests", value: "254 passing" },
+  { label: "Idle CPU", value: "<2%" },
+  { label: "Memory facts", value: "200 cap" },
+];
+
+const features = [
+  {
+    icon: Mic2,
+    title: "Push-to-talk voice",
+    text: "Ctrl+K starts a faster-whisper voice loop with interruptible LLM streaming and sentence-level Piper TTS.",
+  },
+  {
+    icon: Brain,
+    title: "Long-term memory",
+    text: "Facts are embedded with sqlite-vec and also written to an Obsidian-compatible vault you can inspect and edit.",
+  },
+  {
+    icon: Sparkles,
+    title: "Animated desktop pet",
+    text: "A frameless transparent companion uses VP9 alpha WebM states for idle, thinking, talking, acting, and happy moments.",
+  },
+  {
+    icon: BellOff,
+    title: "Policy-gated proactivity",
+    text: "Morning greetings, idle check-ins, battery alerts, and meeting reminders obey quiet hours, snooze, and daily caps.",
+  },
+];
+
+const stack = [
+  ["LLM", "Groq cloud", "Ollama local", "Mock demo"],
+  ["TTS", "Piper neural", "pyttsx3 fallback", "Mock audio"],
+  ["Memory", "sqlite-vec", "Lexical fallback", "Markdown vault"],
+];
+
+const trust = [
+  "First-run wizard explains provider choice, audio, privacy, hotkeys, and tray controls.",
+  "Memory and proactive behavior are explicit opt-ins with settings to inspect, edit, delete, clear, snooze, or disable.",
+  "Diagnostics export redacts sensitive data by default and keeps logs under the local ~/.kibo directory.",
+];
 
 export default function Home() {
   return (
     <>
-      <section className="relative p-0 min-h-[calc(100vh-140px)] flex flex-col items-stretch border-b border-[var(--line)] pt-[130px] sm:pt-[90px]">
-        <div className="max-w-[1360px] px-4 sm:px-6 md:px-8 lg:px-[64px] mx-auto w-full flex-none">
-          <div className="border-t border-[var(--line)] pt-[18px] mb-[48px] flex justify-between items-center font-sans text-[10.5px] tracking-[0.18em] uppercase text-ink-faint">
-            <span className="font-serif italic text-coral text-[14px] tracking-[0.05em] normal-case">I.</span>
-            <span className="inline-flex gap-[26px]">
-              <span>Hero / Cover Plate</span>
-              <span className="text-coral">•</span>
-              <span>KIBO / Volume 01</span>
-            </span>
-            <span>001 / 008</span>
-          </div>
-        </div>
-        <div className="max-w-[1360px] px-4 sm:px-6 md:px-8 lg:px-[64px] mx-auto w-full flex-auto relative grid grid-cols-1 md:grid-cols-[minmax(0,0.78fr)_minmax(0,1.22fr)] gap-[36px] items-stretch">
-          <div className="py-[4vh] flex flex-col relative">
-            <Reveal delay={0}>
-              <span className="font-sans text-[11px] font-semibold tracking-[0.22em] uppercase text-coral inline-flex items-center gap-[12px] mb-[28px] before:content-[''] before:w-[18px] before:h-[1px] before:bg-coral before:inline-block">
-                Persistent digital life <span className="text-ink-faint font-medium ml-1">· Nº 01</span>
+      <section className="relative min-h-[calc(100vh-118px)] border-b border-[var(--line)]">
+        <div className="mx-auto grid min-h-[calc(100vh-118px)] w-full max-w-[1360px] grid-cols-1 items-center gap-10 px-4 py-14 sm:px-6 md:grid-cols-[0.9fr_1.1fr] md:px-8 lg:px-16">
+          <div className="py-8">
+            <Reveal>
+              <span className="inline-flex items-center gap-3 border border-[var(--line)] bg-white/70 px-3 py-2 font-sans text-[11px] font-semibold uppercase tracking-[0.16em] text-ink-soft">
+                <span className="h-2 w-2 bg-coral" />
+                Desktop companion / voice / memory
               </span>
             </Reveal>
             <Reveal delay={80}>
-              <h1 className="font-sans font-extrabold tracking-[-0.028em] text-ink leading-none text-[clamp(44px,5vw,78px)] mb-[28px]">
-                A companion that <em className="font-serif italic font-medium tracking-[-0.018em]">lives</em> with you, <em className="font-serif italic font-medium tracking-[-0.018em]">learns</em> from you, and <em className="font-serif italic font-medium tracking-[-0.018em]">evolves</em><span className="text-coral">.</span>
+              <h1 className="mt-7 max-w-[10ch] font-sans text-[clamp(46px,7vw,92px)] font-black leading-[0.94] tracking-normal text-ink">
+                KIBO lives on your desktop.
               </h1>
             </Reveal>
             <Reveal delay={160}>
-              <p className="font-body text-[16px] leading-[1.55] text-ink-soft max-w-[38ch] mb-[30px]">
-                The first desktop companion designed for deep integration. KIBO doesn&apos;t just wait for prompts—it watches, listens, and acts as a silent partner in your creative process. Built on the Atelier Zero editorial system.
+              <p className="mt-7 max-w-[43rem] font-body text-[17px] leading-7 text-ink-soft">
+                A frameless animated character that listens for your voice, answers with neural TTS,
+                remembers what matters, and can run cloud-fast with Groq or locally through Ollama and
+                Piper fallbacks.
               </p>
             </Reveal>
             <Reveal delay={240}>
-              <div className="inline-flex items-center gap-[14px] mb-[38px]">
-                <button className="inline-flex items-center gap-[12px] py-[14px] px-[22px] rounded-full font-sans text-[14px] font-medium tracking-[-0.005em] no-underline bg-coral text-white shadow-[0_14px_26px_-16px_rgba(237,111,92,1)] transition-transform hover:-translate-y-[1px] hover:bg-[#e25e4a]">
-                  Join Waitlist
-                  <span className="w-[16px] h-[16px] inline-flex items-center justify-center">
-                    <svg viewBox="0 0 24 24" className="w-[14px] h-[14px] stroke-current fill-none stroke-[1.6px]"><path d="M5 19L19 5M19 5H8M19 5v11"/></svg>
-                  </span>
-                </button>
-                <button className="inline-flex items-center gap-[12px] py-[14px] px-[22px] rounded-full font-sans text-[14px] font-medium tracking-[-0.005em] no-underline bg-transparent text-ink border border-[rgba(21,20,15,0.2)] transition-colors hover:bg-[rgba(21,20,15,0.04)]">
-                  Watch Demo
-                  <span className="w-[16px] h-[16px] inline-flex items-center justify-center">
-                    <svg viewBox="0 0 24 24" className="w-[14px] h-[14px] stroke-current fill-none stroke-[1.6px]"><circle cx="12" cy="12" r="9"/><path d="M9 12h6M12 9v6"/></svg>
-                  </span>
-                </button>
+              <div className="mt-8 flex flex-wrap gap-3">
+                <a
+                  href="https://github.com/yash-dev007/KIBO"
+                  target="_blank"
+                  rel="noreferrer noopener"
+                  className="inline-flex items-center gap-2 bg-ink px-5 py-3 font-sans text-sm font-semibold text-white no-underline transition-colors hover:bg-teal"
+                >
+                  <Github className="h-4 w-4" />
+                  View source
+                </a>
+                <a
+                  href="#demo"
+                  className="inline-flex items-center gap-2 border border-[var(--line)] bg-white/70 px-5 py-3 font-sans text-sm font-semibold text-ink no-underline transition-colors hover:border-coral hover:text-coral"
+                >
+                  <Play className="h-4 w-4" />
+                  See runtime
+                </a>
               </div>
             </Reveal>
             <Reveal delay={320}>
-              <div className="flex items-center gap-[22px] flex-nowrap mb-[28px]">
-                <div className="inline-flex items-center gap-[9px] whitespace-nowrap">
-                  <span className="w-[34px] h-[34px] rounded-full border border-ink border-solid inline-flex items-center justify-center font-sans text-[11px] font-bold shrink-0">01</span>
-                  <span className="font-sans text-[11px] leading-[1.25] text-ink-soft tracking-[0.04em] uppercase">
-                    <b className="block font-bold text-ink text-[12px]">Awareness</b>Implicit context
-                  </span>
-                </div>
-                <div className="inline-flex items-center gap-[9px] whitespace-nowrap">
-                  <span className="w-[34px] h-[34px] rounded-full border border-ink border-dashed inline-flex items-center justify-center font-sans text-[11px] font-bold shrink-0">∞</span>
-                  <span className="font-sans text-[11px] leading-[1.25] text-ink-soft tracking-[0.04em] uppercase">
-                    <b className="block font-bold text-ink text-[12px]">Memory</b>Long-term index
-                  </span>
-                </div>
-                <div className="inline-flex items-center gap-[9px] whitespace-nowrap">
-                  <span className="w-[34px] h-[34px] rounded-full border border-coral text-coral border-dashed inline-flex items-center justify-center font-sans text-[11px] font-bold shrink-0">0</span>
-                  <span className="font-sans text-[11px] leading-[1.25] text-ink-soft tracking-[0.04em] uppercase">
-                    <b className="block font-bold text-ink text-[12px]">Privacy</b>Local execution
-                  </span>
-                </div>
-              </div>
-            </Reveal>
-            <Reveal delay={400}>
-              <div className="mt-auto pt-[22px] border-t border-[var(--line)] flex items-center justify-between gap-[24px]">
-                <span className="font-sans text-[10.5px] tracking-[0.18em] uppercase text-ink-faint leading-[1.4]">↳ &nbsp; Launch KIBO &nbsp; · &nbsp; Shift + K to reveal</span>
-                <span className="font-mono text-[10px] tracking-[0.04em] text-ink-faint">0.0000° N · 0.0000° E</span>
-              </div>
+              <dl className="mt-10 grid max-w-[620px] grid-cols-2 gap-px border border-[var(--line)] bg-[var(--line)] sm:grid-cols-4">
+                {proof.map((item) => (
+                  <div key={item.label} className="bg-white/80 p-4">
+                    <dt className="font-sans text-[10px] uppercase tracking-[0.14em] text-ink-faint">{item.label}</dt>
+                    <dd className="mt-2 font-mono text-xl font-bold text-ink">{item.value}</dd>
+                  </div>
+                ))}
+              </dl>
             </Reveal>
           </div>
-          <Reveal delay={0} direction="scale">
-            <div className="relative h-[calc(100vh-160px)] max-h-[860px] ml-auto mr-[-12px] w-full overflow-visible hidden md:block">
-              <span className="absolute w-[22px] h-[22px] border-solid border-ink-faint top-0 left-0 border-t border-l"></span>
-              <span className="absolute w-[22px] h-[22px] border-solid border-ink-faint top-0 right-0 border-t border-r"></span>
-              <span className="absolute w-[22px] h-[22px] border-solid border-ink-faint bottom-0 left-0 border-b border-l"></span>
-              <span className="absolute w-[22px] h-[22px] border-solid border-ink-faint bottom-0 right-0 border-b border-r"></span>
-              <span className="absolute font-sans text-[10.5px] tracking-[0.18em] uppercase text-ink-faint leading-[1.4] whitespace-nowrap font-mono text-[10px] tracking-[0.04em] normal-case top-[14px] left-[14px]">KIBO / ALPHA-01</span>
-              <span className="absolute font-sans text-[10.5px] tracking-[0.18em] uppercase text-ink-faint leading-[1.4] whitespace-nowrap top-[14px] right-[14px] text-right">Plate Nº 01</span>
-              <span className="absolute font-sans text-[10.5px] tracking-[0.18em] uppercase text-ink-faint leading-[1.4] whitespace-nowrap font-mono text-[10px] tracking-[0.04em] normal-case bottom-[14px] left-[14px]">LOC · LOCALHOST</span>
-              <span className="absolute font-sans text-[10.5px] tracking-[0.18em] uppercase text-ink-faint leading-[1.4] whitespace-nowrap bottom-[14px] right-[14px] text-right">Designed in&nbsp;<span className="text-coral">Atelier Zero</span></span>
-              {/* Note: In Next.js, images are usually loaded from public folder or via next/image */}
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src="/assets/Hero_Img.png" alt="" className="w-full h-full object-contain object-right" />
-              <div className="absolute right-[12px] top-[36%] font-sans text-[10.5px] font-semibold tracking-[0.16em] text-ink-faint uppercase bg-[rgba(239,231,210,0.7)] p-[10px_12px] border border-[var(--line-soft)] rounded-[6px] backdrop-blur-[2px]">
-                <span className="block leading-[1.6]"><span className="text-coral mr-[6px] font-bold">01</span>Observe</span>
-                <span className="block leading-[1.6] text-ink font-bold"><span className="text-coral mr-[6px] font-bold">02</span>Learn</span>
-                <span className="block leading-[1.6]"><span className="text-coral mr-[6px] font-bold">03</span>Act</span>
-                <span className="block leading-[1.6]"><span className="text-coral mr-[6px] font-bold">04</span>Remember</span>
+
+          <Reveal direction="scale">
+            <div id="demo" className="relative min-h-[560px] overflow-hidden border border-[var(--line)] bg-white">
+              <div className="absolute inset-x-0 top-0 z-30 flex items-center justify-between border-b border-[var(--line)] bg-ash px-4 py-3 font-mono text-[11px] text-ink-faint">
+                <span>KIBO / transparent overlay</span>
+                <span>state: TALKING</span>
               </div>
+              <div className="absolute left-5 top-20 z-20 max-w-[260px] border border-[var(--line)] bg-paper/95 p-4 shadow-custom backdrop-blur-sm">
+                <div className="mb-3 flex items-center gap-2 font-sans text-[11px] font-bold uppercase tracking-[0.14em] text-teal">
+                  <Volume2 className="h-4 w-4" />
+                  sentence streaming
+                </div>
+                <p className="font-body text-sm leading-6 text-ink-soft">
+                  &ldquo;You mentioned preferring espresso. Want me to remember that for tomorrow&apos;s focus block?&rdquo;
+                </p>
+              </div>
+              <div className="absolute bottom-8 left-6 z-20 grid gap-2 font-mono text-[11px] text-ink-soft">
+                <span className="border border-[var(--line)] bg-white/90 px-3 py-2">Ctrl+K push-to-talk</span>
+                <span className="border border-[var(--line)] bg-white/90 px-3 py-2">Ctrl+Alt+K save clip</span>
+              </div>
+              <div className="absolute right-5 top-20 z-20 grid w-[230px] gap-2">
+                {["Groq healthy", "Piper ready", "Memory enabled"].map((item) => (
+                  <span key={item} className="flex items-center gap-2 border border-[var(--line)] bg-white/85 px-3 py-2 font-sans text-xs font-semibold text-ink-soft">
+                    <ShieldCheck className="h-4 w-4 text-teal" />
+                    {item}
+                  </span>
+                ))}
+              </div>
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src="/assets/Hero_Img.png"
+                alt="KIBO animated desktop companion character"
+                className="absolute bottom-0 right-0 z-0 h-[70%] w-[88%] object-contain object-bottom md:h-[78%]"
+              />
             </div>
           </Reveal>
         </div>
       </section>
 
-      <div className="border-b border-[var(--line)] py-[26px] pb-[28px] bg-paper relative overflow-hidden">
-        <div className="max-w-[1360px] px-4 sm:px-6 md:px-8 lg:px-[64px] mx-auto grid grid-cols-1 md:grid-cols-[minmax(180px,220px)_minmax(0,1fr)] gap-[32px] items-center">
-          <div className="inline-flex items-center gap-[14px] md:border-r border-b md:border-b-0 border-[var(--line)] md:pr-[24px] pb-[12px] md:pb-0 min-h-0 md:min-h-[56px]">
-            <div className="w-[22px] h-[22px] rounded-full border border-[var(--line)] inline-flex items-center justify-center shrink-0">
-              <span className="w-[6px] h-[6px] rounded-full bg-coral inline-block animate-pulse"></span>
-            </div>
-            <div className="font-sans text-[11px] leading-[1.4] flex flex-col gap-[3px]">
-              <b className="text-ink font-bold tracking-[0.18em] uppercase">Network Status</b>
-              <span className="text-ink-faint text-[10px] tracking-[0.14em] uppercase">Live Contextual Loop</span>
-            </div>
-          </div>
-          <div className="grid gap-[8px] min-w-0">
-            <div className="overflow-hidden" style={{ WebkitMaskImage: "linear-gradient(90deg, transparent, black 5%, black 95%, transparent)" }}>
-              <div className="inline-flex items-center gap-[36px] w-max whitespace-nowrap animate-marquee-x hover:[animation-play-state:paused]">
-                {/* Simulated Ticker Content */}
-                <span className="inline-flex items-baseline gap-[8px] font-sans text-[12px] tracking-[0.04em] text-ink-mute shrink-0">
-                  <span className="text-coral text-[16px] leading-none relative -top-[1px] mr-[2px]">•</span>
-                  <span className="font-mono text-[10.5px] text-ink-faint tracking-normal">35.6895° N, 139.6917° E</span>
-                  <span className="uppercase tracking-[0.18em] text-ink font-medium">Tokyo Node</span>
-                </span>
-                <span className="inline-flex items-baseline gap-[8px] font-sans text-[12px] tracking-[0.04em] text-ink-mute shrink-0">
-                  <span className="text-coral text-[16px] leading-none relative -top-[1px] mr-[2px]">•</span>
-                  <span className="font-mono text-[10.5px] text-ink-faint tracking-normal">51.5074° N, 0.1278° W</span>
-                  <span className="uppercase tracking-[0.18em] text-ink font-medium">London Hub</span>
-                </span>
-                <span className="inline-flex items-baseline gap-[8px] font-sans text-[12px] tracking-[0.04em] text-ink-mute shrink-0">
-                  <span className="text-coral text-[16px] leading-none relative -top-[1px] mr-[2px]">•</span>
-                  <span className="font-mono text-[10.5px] text-ink-faint tracking-normal">40.7128° N, 74.0060° W</span>
-                  <span className="uppercase tracking-[0.18em] text-ink font-medium">New York Instance</span>
-                </span>
-                <span className="inline-flex items-baseline gap-[8px] font-sans text-[12px] tracking-[0.04em] text-ink-mute shrink-0">
-                  <span className="text-coral text-[16px] leading-none relative -top-[1px] mr-[2px]">•</span>
-                  <span className="font-mono text-[10.5px] text-ink-faint tracking-normal">48.8566° N, 2.3522° E</span>
-                  <span className="uppercase tracking-[0.18em] text-ink font-medium">Paris Core</span>
-                </span>
-                {/* Duplicate */}
-                 <span className="inline-flex items-baseline gap-[8px] font-sans text-[12px] tracking-[0.04em] text-ink-mute shrink-0">
-                  <span className="text-coral text-[16px] leading-none relative -top-[1px] mr-[2px]">•</span>
-                  <span className="font-mono text-[10.5px] text-ink-faint tracking-normal">35.6895° N, 139.6917° E</span>
-                  <span className="uppercase tracking-[0.18em] text-ink font-medium">Tokyo Node</span>
-                </span>
-                <span className="inline-flex items-baseline gap-[8px] font-sans text-[12px] tracking-[0.04em] text-ink-mute shrink-0">
-                  <span className="text-coral text-[16px] leading-none relative -top-[1px] mr-[2px]">•</span>
-                  <span className="font-mono text-[10.5px] text-ink-faint tracking-normal">51.5074° N, 0.1278° W</span>
-                  <span className="uppercase tracking-[0.18em] text-ink font-medium">London Hub</span>
-                </span>
+      <section id="features" className="border-b border-[var(--line)] bg-white py-20">
+        <div className="mx-auto max-w-[1360px] px-4 sm:px-6 md:px-8 lg:px-16">
+          <Reveal>
+            <div className="grid gap-8 md:grid-cols-[0.8fr_1.2fr]">
+              <div>
+                <span className="font-sans text-[11px] font-bold uppercase tracking-[0.18em] text-coral">What KIBO does</span>
+                <h2 className="mt-4 max-w-[12ch] font-sans text-[clamp(34px,5vw,64px)] font-black leading-none tracking-normal text-ink">
+                  Not a chatbot widget.
+                </h2>
               </div>
+              <p className="max-w-[58ch] font-body text-[18px] leading-8 text-ink-soft">
+                KIBO is a desktop-resident companion: visible as a character, reachable through hotkeys,
+                backed by a local memory vault, and governed by policy when it speaks first.
+              </p>
             </div>
-            <div className="overflow-hidden" style={{ WebkitMaskImage: "linear-gradient(90deg, transparent, black 5%, black 95%, transparent)" }}>
-              <div className="inline-flex items-center gap-[36px] w-max whitespace-nowrap animate-marquee-x-reverse hover:[animation-play-state:paused]">
-                <span className="inline-flex items-baseline gap-[8px] font-sans text-[12px] tracking-[0.04em] text-ink-mute shrink-0">
-                  <span className="text-coral text-[16px] leading-none relative -top-[1px] mr-[2px]">•</span>
-                  <span className="uppercase tracking-[0.16em] text-coral text-[10px]">Contributor</span>
-                  <span className="font-mono text-ink text-[11.5px] font-medium">@alex_v</span>
-                </span>
-                <span className="inline-flex items-baseline gap-[8px] font-sans text-[12px] tracking-[0.04em] text-ink-mute shrink-0">
-                  <span className="text-coral text-[16px] leading-none relative -top-[1px] mr-[2px]">•</span>
-                  <span className="uppercase tracking-[0.16em] text-coral text-[10px]">Contributor</span>
-                  <span className="font-mono text-ink text-[11.5px] font-medium">@m_parker</span>
-                </span>
-                <span className="inline-flex items-baseline gap-[8px] font-sans text-[12px] tracking-[0.04em] text-ink-mute shrink-0">
-                  <span className="text-coral text-[16px] leading-none relative -top-[1px] mr-[2px]">•</span>
-                  <span className="uppercase tracking-[0.16em] text-coral text-[10px]">Contributor</span>
-                  <span className="font-mono text-ink text-[11.5px] font-medium">@sara_chen</span>
-                </span>
-                <span className="inline-flex items-baseline gap-[8px] font-sans text-[12px] tracking-[0.04em] text-ink-mute shrink-0">
-                  <span className="text-coral text-[16px] leading-none relative -top-[1px] mr-[2px]">•</span>
-                  <span className="uppercase tracking-[0.16em] text-coral text-[10px]">Contributor</span>
-                  <span className="font-mono text-ink text-[11.5px] font-medium">@j_doe</span>
-                </span>
-                {/* Duplicate */}
-                <span className="inline-flex items-baseline gap-[8px] font-sans text-[12px] tracking-[0.04em] text-ink-mute shrink-0">
-                  <span className="text-coral text-[16px] leading-none relative -top-[1px] mr-[2px]">•</span>
-                  <span className="uppercase tracking-[0.16em] text-coral text-[10px]">Contributor</span>
-                  <span className="font-mono text-ink text-[11.5px] font-medium">@alex_v</span>
-                </span>
-                <span className="inline-flex items-baseline gap-[8px] font-sans text-[12px] tracking-[0.04em] text-ink-mute shrink-0">
-                  <span className="text-coral text-[16px] leading-none relative -top-[1px] mr-[2px]">•</span>
-                  <span className="uppercase tracking-[0.16em] text-coral text-[10px]">Contributor</span>
-                  <span className="font-mono text-ink text-[11.5px] font-medium">@m_parker</span>
-                </span>
-              </div>
-            </div>
+          </Reveal>
+          <div className="mt-12 grid auto-rows-fr gap-px border border-[var(--line)] bg-[var(--line)] md:grid-cols-4">
+            {features.map((feature, index) => {
+              const Icon = feature.icon;
+              return (
+                <Reveal key={feature.title} delay={index * 70} className="h-full">
+                  <article className="flex h-full min-h-[280px] flex-col bg-paper p-6">
+                    <Icon className="h-7 w-7 text-teal" />
+                    <h3 className="mt-7 font-sans text-2xl font-bold leading-tight text-ink">{feature.title}</h3>
+                    <p className="mt-4 font-body text-sm leading-6 text-ink-mute">{feature.text}</p>
+                  </article>
+                </Reveal>
+              );
+            })}
           </div>
         </div>
-      </div>
+      </section>
+
+      <section id="architecture" className="border-b border-[var(--line)] bg-ash py-20">
+        <div className="mx-auto grid max-w-[1360px] gap-10 px-4 sm:px-6 md:grid-cols-[1fr_1fr] md:px-8 lg:px-16">
+          <Reveal>
+            <span className="font-sans text-[11px] font-bold uppercase tracking-[0.18em] text-coral">Runtime stack</span>
+            <h2 className="mt-4 max-w-[13ch] font-sans text-[clamp(34px,5vw,62px)] font-black leading-none tracking-normal text-ink">
+              Cloud-fast, locally capable.
+            </h2>
+            <p className="mt-6 max-w-[52ch] font-body text-base leading-7 text-ink-soft">
+              Each dependency has a graceful degradation path so the app can still start when keys,
+              models, or network access are missing.
+            </p>
+          </Reveal>
+          <Reveal direction="right">
+            <div className="border border-[var(--line)] bg-white">
+              {stack.map((row) => (
+                <div key={row[0]} className="grid grid-cols-1 border-b border-[var(--line)] last:border-b-0 sm:grid-cols-[120px_1fr_1fr_1fr]">
+                  {row.map((cell, index) => (
+                    <div key={cell} className={index === 0 ? "bg-ink p-4 font-mono text-sm font-bold text-white" : "p-4 font-sans text-sm font-semibold text-ink-soft"}>
+                      {cell}
+                    </div>
+                  ))}
+                </div>
+              ))}
+            </div>
+          </Reveal>
+        </div>
+      </section>
+
+      <section id="privacy" className="border-b border-[var(--line)] bg-paper py-20">
+        <div className="mx-auto grid max-w-[1360px] gap-10 px-4 sm:px-6 md:grid-cols-[0.9fr_1.1fr] md:px-8 lg:px-16">
+          <Reveal>
+            <div className="relative aspect-square max-w-[560px] border border-[var(--line)] bg-white">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src="/assets/about.png" alt="KIBO companion detail" className="h-full w-full object-contain p-8" />
+            </div>
+          </Reveal>
+          <Reveal direction="right">
+            <span className="font-sans text-[11px] font-bold uppercase tracking-[0.18em] text-coral">Trust model</span>
+            <h2 className="mt-4 font-sans text-[clamp(34px,5vw,62px)] font-black leading-none tracking-normal text-ink">
+              Proactive only after permission.
+            </h2>
+            <div className="mt-8 grid gap-4">
+              {trust.map((item, index) => (
+                <div key={item} className="flex gap-4 border border-[var(--line)] bg-white p-5">
+                  <span className="font-mono text-sm font-bold text-coral">0{index + 1}</span>
+                  <p className="font-body text-base leading-7 text-ink-soft">{item}</p>
+                </div>
+              ))}
+            </div>
+          </Reveal>
+        </div>
+      </section>
+
+      <section id="install" className="bg-ink py-20 text-white">
+        <div className="mx-auto grid max-w-[1360px] gap-10 px-4 sm:px-6 md:grid-cols-[1fr_1fr] md:px-8 lg:px-16">
+          <Reveal>
+            <span className="font-sans text-[11px] font-bold uppercase tracking-[0.18em] text-coral-soft">Quick start</span>
+            <h2 className="mt-4 max-w-[13ch] font-sans text-[clamp(34px,5vw,62px)] font-black leading-none tracking-normal">
+              Run the companion locally.
+            </h2>
+            <p className="mt-6 max-w-[54ch] font-body text-base leading-7 text-white/72">
+              Install with uv, optionally add Groq and Piper, then launch the Python backend and Electron frontend.
+            </p>
+            <div className="mt-8 flex flex-wrap gap-3">
+              <a href="https://github.com/yash-dev007/KIBO" target="_blank" rel="noreferrer noopener" className="inline-flex items-center gap-2 bg-coral px-5 py-3 font-sans text-sm font-semibold text-white no-underline hover:bg-coral-soft">
+                <Download className="h-4 w-4" />
+                Get KIBO
+              </a>
+              <a href="https://github.com/yash-dev007/KIBO/issues" target="_blank" rel="noreferrer noopener" className="inline-flex items-center gap-2 border border-white/20 px-5 py-3 font-sans text-sm font-semibold text-white no-underline hover:border-coral">
+                <HeartPulse className="h-4 w-4" />
+                Report issue
+              </a>
+            </div>
+          </Reveal>
+          <Reveal direction="right">
+            <pre className="overflow-x-auto border border-white/15 bg-black/35 p-5 font-mono text-sm leading-7 text-white/84"><code>{`git clone https://github.com/yash-dev007/KIBO.git
+cd KIBO
+pip install uv
+uv sync
+
+# Windows launcher
+KIBO.bat`}</code></pre>
+            <div className="mt-4 grid gap-3 sm:grid-cols-2">
+              <div className="border border-white/15 p-4">
+                <Cpu className="mb-3 h-5 w-5 text-coral-soft" />
+                <p className="font-sans text-sm font-semibold">Backend API runs on port 8765.</p>
+              </div>
+              <div className="border border-white/15 p-4">
+                <Database className="mb-3 h-5 w-5 text-coral-soft" />
+                <p className="font-sans text-sm font-semibold">Local data lives under ~/.kibo.</p>
+              </div>
+            </div>
+          </Reveal>
+        </div>
+      </section>
     </>
   );
 }

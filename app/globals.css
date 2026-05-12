@@ -4,22 +4,24 @@
 
 @layer base {
   :root {
-    --paper: #efe7d2;
-    --paper-warm: #ece4cf;
-    --paper-dark: #ddd2b6;
-    --ink: #15140f;
-    --ink-soft: #2a2620;
-    --ink-mute: #5a5448;
-    --ink-faint: #8b8676;
-    --coral: #ed6f5c;
-    --coral-soft: #f08e7c;
+    --paper: #f3f1e8;
+    --paper-warm: #e8f2ee;
+    --paper-dark: #d8e5e0;
+    --ash: #f6f7f2;
+    --ink: #121617;
+    --ink-soft: #273235;
+    --ink-mute: #5b6668;
+    --ink-faint: #7d888a;
+    --coral: #e85f4f;
+    --coral-soft: #ff8a73;
+    --teal: #0f766e;
     --mustard: #e9b94a;
     --olive: #6e7448;
-    --bone: #f7f1de;
-    --line: rgba(21, 20, 15, 0.16);
-    --line-soft: rgba(21, 20, 15, 0.08);
-    --line-faint: rgba(21, 20, 15, 0.05);
-    --shadow: 0 30px 60px -30px rgba(21, 20, 15, 0.18);
+    --bone: #ffffff;
+    --line: rgba(18, 22, 23, 0.16);
+    --line-soft: rgba(18, 22, 23, 0.08);
+    --line-faint: rgba(18, 22, 23, 0.05);
+    --shadow: 0 24px 60px -32px rgba(18, 22, 23, 0.34);
   }
 
   * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -45,11 +47,11 @@
     pointer-events: none;
     z-index: 1;
     background-image:
-      radial-gradient(circle at 12% 18%, rgba(106, 92, 56, 0.07) 0, transparent 28%),
-      radial-gradient(circle at 88% 72%, rgba(106, 92, 56, 0.06) 0, transparent 32%),
+      linear-gradient(90deg, rgba(15, 118, 110, 0.06) 1px, transparent 1px),
+      linear-gradient(0deg, rgba(18, 22, 23, 0.035) 1px, transparent 1px),
       url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='240' height='240'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.18  0 0 0 0 0.16  0 0 0 0 0.12  0 0 0 0.06 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
-    background-size: auto, auto, 240px 240px;
+    background-size: 56px 56px, 56px 56px, 240px 240px;
     mix-blend-mode: multiply;
-    opacity: 0.92;
+    opacity: 0.42;
   }
 }

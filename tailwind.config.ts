@@ -17,6 +17,8 @@ const config: Config = {
         "ink-faint": "var(--ink-faint)",
         coral: "var(--coral)",
         "coral-soft": "var(--coral-soft)",
+        ash: "var(--ash)",
+        teal: "var(--teal)",
         mustard: "var(--mustard)",
         olive: "var(--olive)",
         bone: "var(--bone)",
