@@ -11,12 +11,12 @@ export function Topbar() {
         </span>
         <span className="inline-flex items-center gap-[18px] whitespace-nowrap">
           <a
-            className="text-inherit no-underline transition-colors hover:text-coral"
+            className="inline-flex items-center gap-[6px] rounded-full border border-[var(--line)] px-3 py-1 text-inherit no-underline transition-all hover:border-coral hover:text-coral"
             href="https://github.com/yash-dev007/KIBO"
             target="_blank"
             rel="noreferrer noopener"
           >
-            <span className="mr-[6px] inline-block h-[6px] w-[6px] animate-pulse bg-coral" />
+            <span className="inline-block h-[6px] w-[6px] animate-pulse rounded-full bg-coral" />
             GitHub
           </a>
           <span>

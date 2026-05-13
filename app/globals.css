@@ -24,8 +24,19 @@
     --shadow: 0 24px 60px -32px rgba(18, 22, 23, 0.34);
   }
 
+  --radius-sm: 12px;
+  --radius-md: 20px;
+  --radius-lg: 32px;
+  --shadow-sm: 0 4px 12px rgba(18,22,23,0.04);
+  --shadow-md: 0 12px 32px rgba(18,22,23,0.08);
+  --shadow-lg: 0 24px 60px rgba(18,22,23,0.14);
+
   * { box-sizing: border-box; margin: 0; padding: 0; }
   
+  html {
+    overflow-x: hidden;
+  }
+
   html, body {
     background: var(--paper);
     color: var(--ink);

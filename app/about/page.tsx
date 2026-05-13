@@ -2,11 +2,11 @@ import { Reveal } from "@/components/ui/Reveal";
 
 export default function About() {
   return (
-    <section className="relative py-[130px] sm:py-[90px]" id="about">
+    <section className="relative py-[80px] sm:py-[90px] lg:py-[130px]" id="about">
       <div className="max-w-[1360px] px-4 sm:px-6 md:px-8 lg:px-[64px] mx-auto">
         <div className="border-t border-[var(--line)] pt-[18px] mb-[48px] flex justify-between items-center font-sans text-[10.5px] tracking-[0.18em] uppercase text-ink-faint">
           <span className="font-serif italic text-coral text-[14px] tracking-[0.05em] normal-case">I.</span>
-          <span className="inline-flex gap-[26px]">
+          <span className="hidden sm:inline-flex gap-[26px]">
             <span>Manifesto</span>
             <span className="text-coral">•</span>
             <span>KIBO / Vol 01</span>
@@ -21,7 +21,7 @@ export default function About() {
               </span>
             </Reveal>
             <Reveal delay={80}>
-              <h2 className="font-sans font-extrabold tracking-[-0.028em] text-ink leading-none text-[clamp(44px,5.4vw,78px)] my-[30px] md:mb-[36px]">
+              <h2 className="font-sans font-extrabold tracking-[-0.028em] text-ink leading-none text-[clamp(36px,5.4vw,78px)] my-[30px] md:mb-[36px]">
                 Intelligence should be <em className="font-serif italic font-medium tracking-[-0.018em]">present,</em> not just <em className="font-serif italic font-medium tracking-[-0.018em]">available</em> on demand<span className="text-coral">.</span>
               </h2>
             </Reveal>
@@ -39,10 +39,10 @@ export default function About() {
               </a>
             </Reveal>
             <Reveal delay={320}>
-              <div className="flex items-center gap-[20px] mt-[56px] text-ink-faint font-sans text-[11px] tracking-[0.18em] uppercase">
+              <div className="flex flex-wrap items-center gap-[16px] mt-[56px] text-ink-faint font-sans text-[11px] tracking-[0.18em] uppercase">
                 <span className="w-[30px] h-[30px] rounded-full border border-ink inline-flex items-center justify-center font-serif italic text-[14px] text-ink shrink-0">К</span>
-                <span>Presence · Context · Memory · Growth</span>
-                <span className="ml-auto inline-flex flex-col items-end leading-[1.4]">
+                <span className="flex-1 min-w-0">Presence · Context · Memory · Growth</span>
+                <span className="inline-flex flex-col items-end leading-[1.4] shrink-0">
                   <span className="text-coral">New Interface</span>
                   <span className="text-ink">Est. MMXXVI</span>
                 </span>
@@ -50,12 +50,9 @@ export default function About() {
             </Reveal>
           </div>
           <Reveal delay={0} direction="right">
-            <div className="relative aspect-square max-w-[620px] ml-auto">
+            <div className="relative aspect-square max-w-[620px] mx-auto md:ml-auto">
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img src="/assets/about.png" alt="" className="w-full h-full object-contain" />
-              <div className="absolute right-[-8px] top-[26px] text-right font-sans text-[10.5px] leading-[1.55] text-ink-faint tracking-[0.04em] max-w-[16ch] hidden md:block">
-                <b className="block text-coral w-[36px] h-[1px] bg-coral my-[0_0_10px_auto]"></b>
-              </div>
               <div className="absolute right-[18px] bottom-[4px] font-sans text-[9.5px] text-ink-faint text-right tracking-[0.06em] leading-[1.45]">
                 <b className="text-ink block">The evolution of the desktop metaphor.</b>
                 (KIBO Studio, 2026)

@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 
 export function Footer() {
   return (
@@ -6,9 +7,18 @@ export function Footer() {
       <div className="mx-auto max-w-[1360px] px-4 sm:px-6 md:px-8 lg:px-[64px]">
         <div className="mb-[60px] grid grid-cols-1 gap-[40px] lg:grid-cols-[2fr_1fr_1fr_1fr]">
           <div className="mb-4 lg:mb-0">
-            <Link href="/" className="mb-[18px] inline-flex items-center gap-[14px] font-sans text-[18px] font-bold tracking-normal text-ink no-underline">
-              <span className="inline-flex h-[36px] w-[36px] items-center justify-center border-[1.5px] border-ink bg-transparent font-serif text-[17px] italic">K</span>
-              <span>KIBO</span>
+            <Link href="/" className="mb-[18px] inline-flex items-center no-underline">
+              <div className="relative h-[60px] w-[160px] overflow-hidden">
+                <Image
+                  src="/assets/LOGO.svg"
+                  alt="KIBO Desktop"
+                  width={165}
+                  height={165}
+                  unoptimized
+                  className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2"
+                  style={{ width: 165, height: 165 }}
+                />
+              </div>
             </Link>
             <p className="mt-[18px] max-w-[38ch] font-body text-[13.5px] leading-[1.55] text-ink-mute">
               KIBO is an open-source desktop companion with voice, neural TTS, animation states, and transparent long-term memory.
@@ -48,7 +58,7 @@ export function Footer() {
           </span>
         </div>
         <div className="mt-[60px] overflow-hidden border-t border-[var(--line)] pb-[12px] pt-0">
-          <div className="mt-[30px] whitespace-nowrap pr-[0.1em] font-sans text-[clamp(48px,9vw,128px)] font-black leading-[1.05] tracking-normal text-ink">
+          <div className="mt-[30px] text-center font-sans text-[clamp(48px,9vw,128px)] font-black leading-[1.05] tracking-normal text-ink">
             KIBO<em className="font-serif font-medium italic text-coral"> Desktop</em>.
           </div>
         </div>
