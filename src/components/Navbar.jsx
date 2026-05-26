@@ -24,14 +24,42 @@ const NavBar = () => {
     setIsIndicatorActive((prev) => !prev);
   };
 
-  // Manage audio playback
+  // Manage audio playback and ensure it starts from the beginning
   useEffect(() => {
     if (isAudioPlaying) {
-      audioElementRef.current.play();
+      if (audioElementRef.current) {
+        audioElementRef.current.currentTime = 0; // Always start the music from the beginning
+        audioElementRef.current.play().catch((err) => {
+          console.warn("Audio playback failed or was blocked by browser autoplay rules:", err);
+        });
+      }
     } else {
-      audioElementRef.current.pause();
+      if (audioElementRef.current) {
+        audioElementRef.current.pause();
+      }
     }
   }, [isAudioPlaying]);
+
+  // Auto-play music on first user interaction (e.g. click, scroll, keypress)
+  useEffect(() => {
+    const handleFirstInteraction = () => {
+      setIsAudioPlaying(true);
+      setIsIndicatorActive(true);
+      removeListeners();
+    };
+
+    const removeListeners = () => {
+      window.removeEventListener("click", handleFirstInteraction);
+      window.removeEventListener("scroll", handleFirstInteraction);
+      window.removeEventListener("keydown", handleFirstInteraction);
+    };
+
+    window.addEventListener("click", handleFirstInteraction);
+    window.addEventListener("scroll", handleFirstInteraction);
+    window.addEventListener("keydown", handleFirstInteraction);
+
+    return removeListeners;
+  }, []);
 
   useEffect(() => {
     if (currentScrollY === 0) {
