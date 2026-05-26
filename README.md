@@ -1,29 +1,48 @@
-# KIBO Companion Web Interface
+<div align="center">
 
+# **KIBO Companion Web Interface**
 
-> **A persistent digital life · Reactive · Evolving · Personal · Memory**
+### A visually stunning, award-winning inspired single-page website for KIBO—the desktop companion.
 
-KIBO is a next-generation desktop companion interface. It is designed for deep integration, serving as a persistent, reactive, and evolving partner in your creative process. Built on the Atelier Zero editorial system, KIBO indexes your workflow, anticipates your needs, and builds a long-term memory of your creative preferences.
+<br/>
 
-This repository contains the front-end marketing and informational website for KIBO, beautifully crafted to match the aesthetic and philosophy of the companion itself.
+[![Stars](https://img.shields.io/github/stars/yash-dev007/KIBO-WEB?style=flat-square&color=FFD700&labelColor=1a1a1a)](https://github.com/yash-dev007/KIBO-WEB/stargazers)
+[![License: Apache 2.0](https://img.shields.io/badge/License-Apache%202.0-blue.svg?style=flat-square&labelColor=1a1a1a)](LICENSE)
+[![Contributing](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square&color=FF69B4&labelColor=1a1a1a)](CONTRIBUTING.md)
+[![Vite](https://img.shields.io/badge/Vite-6.4%2B-646CFF?style=flat-square&logo=vite&logoColor=white&labelColor=1a1a1a)](https://vite.dev/)
+[![React](https://img.shields.io/badge/React-18.3%2B-61DAFB?style=flat-square&logo=react&logoColor=black&labelColor=1a1a1a)](https://react.dev/)
+[![GSAP](https://img.shields.io/badge/GSAP-3.12%2B-88CE02?style=flat-square&logo=greensock&logoColor=white&labelColor=1a1a1a)](https://gsap.com/)
+
+<br/>
+
+> **This is the beautiful, highly interactive frontend marketing and informational interface for KIBO. Built with pixel-perfect attention to detail, smooth scroll triggers, and high-fidelity transitions to match the aesthetic and philosophy of the KIBO desktop companion itself.**
+
+<br/>
+
+</div>
+
+---
 
 ## 🚀 Tech Stack
 
-The application has been meticulously migrated from a static HTML page to a modern, scalable architecture while maintaining a 1:1 pixel-perfect visual identity.
+The application utilizes a cutting-edge React single-page architecture optimized for ultra-smooth rendering, custom clip-paths, and state-of-the-art interactive transitions.
 
-- **Framework**: [Next.js 14](https://nextjs.org/) (App Router)
+- **Build Tool**: [Vite 6](https://vite.dev/) (Ultra-fast Hot Module Replacement)
 - **Library**: [React 18](https://react.dev/)
-- **Language**: [TypeScript](https://www.typescriptlang.org/)
-- **Styling**: [Tailwind CSS](https://tailwindcss.com/)
-- **Components**: [shadcn/ui](https://ui.shadcn.com/)
-- **Animation**: [Framer Motion](https://www.framer.com/motion/)
+- **Animation**: [GSAP](https://gsap.com/) (GreenSock Animation Platform) + `@gsap/react`
+- **Styling**: [Tailwind CSS v3](https://tailwindcss.com/)
+- **Icons**: [React Icons](https://react-icons.github.io/react-icons/)
 
-## ✨ Features
+---
 
-- **Pixel-Perfect Fidelity**: Custom Tailwind configuration flawlessly replicates the exact color palette, typography (Inter, Playfair Display, JetBrains Mono), and paper-texture styling of the original Atelier Zero design system.
-- **Component-Driven Architecture**: The single-page layout has been intelligently splintered into scalable Next.js routes (`/about`, `/capabilities`, `/labs`, `/method`, `/work`).
-- **Performant Animations**: Vanilla JavaScript scroll observers have been replaced with a reusable, highly performant `<Reveal>` wrapper powered by Framer Motion's `whileInView`. Infinite ticker animations utilize native CSS keyframes.
-- **Responsive Layouts**: Fully responsive grid structures that adapt elegantly from ultra-wide desktop monitors down to mobile viewports.
+## ✨ Key Features
+
+- **GSAP Scroll-Triggered Clip Paths**: Features smooth, scroll-bound geometric mask transitions where background visuals expand dynamically to cover the viewport.
+- **Micro-Animations & Interactive Bentos**: Beautiful 3D hover states, interactive cards, and responsive Bento grids with magnetic pull effects.
+- **Glassmorphic Design & HSL Color System**: curates harmonious dark modes, smooth typography (General Sans, Zentry font features), and sleek indicator lines.
+- **High-Performance Audio & Video Layouts**: Seamlessly integrated, lightweight visual loaders and media streaming players.
+
+---
 
 ## 📦 Getting Started
 
@@ -52,9 +71,11 @@ Ensure you have [Node.js](https://nodejs.org/) (v18 or higher) and npm installed
    ```
 
 4. **View the application**
-   Open [http://localhost:3000](http://localhost:3000) in your browser.
+   Open [http://localhost:5173](http://localhost:5173) in your browser.
 
-## 🛠️ Build for Production
+---
+
+## 🛠️ Production Build
 
 To create an optimized production build:
 
@@ -62,21 +83,40 @@ To create an optimized production build:
 npm run build
 ```
 
-To start the production server:
+To preview the built production bundle locally:
 
 ```bash
-npm run start
+npm run preview
 ```
+
+---
 
 ## 📂 Project Structure
 
-- `app/`: Next.js App Router pages and global layouts.
-  - `globals.css`: Core CSS resets, variables, and the custom paper texture.
-  - `layout.tsx`: The application shell containing SideRails, Topbar, StickyNav, and Footer.
-- `components/ui/`: Reusable React components (Navigation, Footer, Reveal animations).
-- `public/assets/`: Static assets including images and icons.
-- `docs/superpowers/`: Engineering documentation, architecture plans, and spec sheets.
+```
+KIBO WEB/
+├── src/
+│   ├── components/            # Reusable UI components (About, AnimatedTitle, Hero, etc.)
+│   ├── assets/                # Local visual, image, and font resources
+│   ├── App.jsx                # Main single-page application orchestrator
+│   ├── index.css              # Custom Tailwind directives and layer extensions
+│   └── main.jsx               # React client entry point
+├── public/                    # Static assets directly served by Vite (icons, videos, raw WebMs)
+├── tailwind.config.js         # Core layout spacing, bespoke font-families, and brand colors
+├── vite.config.js             # Vite configuration with React support
+└── package.json               # Dependencies and command-line lifecycle scripts
+```
+
+---
+
+## 🤝 Contributing
+
+Contributions are highly appreciated! Please review our detailed contribution guidelines in the [CONTRIBUTING.md](CONTRIBUTING.md) file at the root of the repository before submitting issues or pull requests.
+
+---
 
 ## 📄 License
 
-This project is proprietary software belonging to KIBO Studio (2026). All rights reserved.
+This project is licensed under the Apache License 2.0. See the full license details in the [LICENSE](LICENSE) file at the root of the repository.
+
+© 2026 Yash Patil

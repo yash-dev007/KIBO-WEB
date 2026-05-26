@@ -11,7 +11,8 @@
 <br/>
 
 [![Stars](https://img.shields.io/github/stars/yash-dev007/KIBO?style=flat-square&color=FFD700&labelColor=1a1a1a)](https://github.com/yash-dev007/KIBO/stargazers)
-[![License: Apache 2.0](https://img.shields.io/badge/License-Apache%202.0-blue.svg?style=flat-square&labelColor=1a1a1a)](LICENSE)
+[![License: Apache 2.0](https://img.shields.io/badge/License-Apache%202.0-blue.svg?style=flat-square&labelColor=1a1a1a)](../LICENSE)
+[![Contributing](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square&color=FF69B4&labelColor=1a1a1a)](../CONTRIBUTING.md)
 [![Python 3.11+](https://img.shields.io/badge/python-3.11%2B-3776AB?style=flat-square&logo=python&logoColor=white&labelColor=1a1a1a)](https://www.python.org/)
 [![Electron](https://img.shields.io/badge/UI-Electron%20%2B%20React-47848F?style=flat-square&logo=electron&logoColor=white&labelColor=1a1a1a)](https://www.electronjs.org/)
 [![LLM: Groq](https://img.shields.io/badge/LLM-Groq%20%2F%20Ollama-F54F29?style=flat-square&labelColor=1a1a1a)](https://console.groq.com)
@@ -375,7 +376,7 @@ src/
 │   ├── notification_router.py # State machine — daily cap, snooze, cooldowns, persistence
 │   ├── provider_health.py     # Health checks for Groq, Piper, and Ollama
 │   ├── diagnostics.py         # Redacted diagnostics export
-│   ├── hotkey_listener.py     # Global hotkeys
+534: ├── hotkey_listener.py     # Global hotkeys
 │   ├── system_monitor.py      # CPU / battery / idle sensors
 │   ├── calendar_manager.py    # Google Calendar sync (opt-in)
 │   └── task_runner.py         # Background task management
@@ -533,15 +534,18 @@ This bakes transparency offline. Runtime CPU cost: zero.
 
 ## Contributing
 
-Issues and PRs are welcome. Please open an issue first for anything larger than a bug fix.
+Contributions are highly appreciated! Please review our detailed contribution guidelines in the [CONTRIBUTING.md](../CONTRIBUTING.md) file at the root of the repository before submitting issues or pull requests.
 
-1. Fork → create a feature branch
-2. Write tests first (TDD: red → green → refactor)
-3. `uv run python -m pytest tests/ -q` must pass (all 311 passing tests)
-4. Submit a PR with a clear description of what changed and why
+### Quick Workflow
+1. Fork the repository and create a feature branch.
+2. Follow our commit message guidelines (e.g. `✨ feat: ...` or `🐛 fix: ...`).
+3. Ensure all tests pass: `uv run python -m pytest tests/ -q` (all 311 tests must pass).
+4. Open a Pull Request detailing your changes.
 
 ---
 
 ## License
 
-[Apache 2.0](LICENSE) © 2026 Yash Patil
+This project is licensed under the Apache License 2.0. See the full license details in the [LICENSE](../LICENSE) file at the root of the repository.
+
+© 2026 Yash Patil
