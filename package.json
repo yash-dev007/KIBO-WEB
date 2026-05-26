@@ -39,6 +39,10 @@
     "esbuild": "^0.25.0",
     "@vitejs/plugin-react": {
       "vite": "^6.4.2"
+    },
+    "react-use": {
+      "react": "^18.3.1",
+      "react-dom": "^18.3.1"
     }
   }
 }
