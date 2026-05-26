@@ -28,10 +28,20 @@ const NavBar = () => {
   useEffect(() => {
     if (isAudioPlaying) {
       if (audioElementRef.current) {
-        audioElementRef.current.currentTime = 0; // Always start the music from the beginning
-        audioElementRef.current.play().catch((err) => {
-          console.warn("Audio playback failed or was blocked by browser autoplay rules:", err);
-        });
+        try {
+          audioElementRef.current.currentTime = 0; // Seek before play
+        } catch (e) {
+          // Ignore pre-play seek errors
+        }
+        audioElementRef.current.play()
+          .then(() => {
+            if (audioElementRef.current) {
+              audioElementRef.current.currentTime = 0; // Force seek after pipeline initializes
+            }
+          })
+          .catch((err) => {
+            console.warn("Audio playback failed or was blocked by browser autoplay rules:", err);
+          });
       }
     } else {
       if (audioElementRef.current) {
