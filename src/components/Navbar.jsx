@@ -7,8 +7,8 @@ const navItems = ["Home", "Vault", "Prologue", "About", "Contact"];
 
 const NavBar = () => {
   // State for toggling audio and visual indicator
-  const [isAudioPlaying, setIsAudioPlaying] = useState(false);
-  const [isIndicatorActive, setIsIndicatorActive] = useState(false);
+  const [isAudioPlaying, setIsAudioPlaying] = useState(true);
+  const [isIndicatorActive, setIsIndicatorActive] = useState(true);
 
   // Refs for audio and navigation container
   const audioElementRef = useRef(null);
@@ -19,28 +19,21 @@ const NavBar = () => {
   const [lastScrollY, setLastScrollY] = useState(0);
 
   // Toggle audio and visual indicator
-  const toggleAudioIndicator = () => {
+  const toggleAudioIndicator = (e) => {
+    if (e) e.stopPropagation();
     setIsAudioPlaying((prev) => !prev);
     setIsIndicatorActive((prev) => !prev);
   };
 
-  // Manage audio playback and ensure it starts from the beginning
+  // Manage audio playback and ensure smooth play/pause behavior
   useEffect(() => {
     if (isAudioPlaying) {
       if (audioElementRef.current) {
-        try {
-          audioElementRef.current.currentTime = 0; // Seek before play
-        } catch (e) {
-          // Ignore pre-play seek errors
-        }
         audioElementRef.current.play()
-          .then(() => {
-            if (audioElementRef.current) {
-              audioElementRef.current.currentTime = 0; // Force seek after pipeline initializes
-            }
-          })
           .catch((err) => {
             console.warn("Audio playback failed or was blocked by browser autoplay rules:", err);
+            setIsAudioPlaying(false);
+            setIsIndicatorActive(false);
           });
       }
     } else {
@@ -48,24 +41,35 @@ const NavBar = () => {
         audioElementRef.current.pause();
       }
     }
+
+    return () => {
+      if (audioElementRef.current) {
+        audioElementRef.current.pause();
+      }
+    };
   }, [isAudioPlaying]);
 
-  // Auto-play music on first user interaction (e.g. click, scroll, keypress)
+  // Auto-play music on first valid user interaction (e.g. click, touch, keypress)
   useEffect(() => {
     const handleFirstInteraction = () => {
-      setIsAudioPlaying(true);
-      setIsIndicatorActive(true);
+      setIsAudioPlaying((prev) => {
+        if (!prev) {
+          setIsIndicatorActive(true);
+          return true;
+        }
+        return prev;
+      });
       removeListeners();
     };
 
     const removeListeners = () => {
       window.removeEventListener("click", handleFirstInteraction);
-      window.removeEventListener("scroll", handleFirstInteraction);
+      window.removeEventListener("touchstart", handleFirstInteraction);
       window.removeEventListener("keydown", handleFirstInteraction);
     };
 
     window.addEventListener("click", handleFirstInteraction);
-    window.addEventListener("scroll", handleFirstInteraction);
+    window.addEventListener("touchstart", handleFirstInteraction);
     window.addEventListener("keydown", handleFirstInteraction);
 
     return removeListeners;
