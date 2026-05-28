@@ -19,7 +19,7 @@ const About = () => {
       },
     });
 
-    clipAnimation.to(".mask-clip-path", {
+    clipAnimation.to(".about-image", {
       width: "100vw",
       height: "100vh",
       borderRadius: 0,

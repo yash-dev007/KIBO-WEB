@@ -140,7 +140,7 @@ body {
   }
 
   .gallery-img-container {
-    @apply size-64 overflow-hidden bg-violet-300;
+    @apply size-64 overflow-hidden bg-cyan-300;
   }
 
   .gallery-img {
@@ -193,7 +193,7 @@ body {
 .three-body {
   --uib-size: 35px;
   --uib-speed: 0.8s;
-  --uib-color: #5d3fd3;
+  --uib-color: #3b82f6;
   position: relative;
   display: inline-block;
   height: var(--uib-size);

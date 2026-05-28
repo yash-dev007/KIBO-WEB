@@ -94,7 +94,7 @@ const Hero = () => {
   return (
     <div id="home" className="relative h-dvh w-full overflow-x-hidden">
       {loading && (
-        <div className="flex-center absolute z-[100] h-dvh w-full overflow-hidden bg-violet-50">
+        <div className="flex-center absolute z-[100] h-dvh w-full overflow-hidden bg-blue-50">
           <div className="three-body">
             <div className="three-body__dot"></div>
             <div className="three-body__dot"></div>
@@ -115,7 +115,6 @@ const Hero = () => {
                 className="origin-center scale-50 opacity-0 transition-all duration-500 ease-in hover:scale-100 hover:opacity-100"
               >
                 <video
-                  ref={nextVdRef}
                   src={getVideoSrc((currentIndex + 1) % totalVideos)}
                   loop
                   muted
@@ -154,14 +153,14 @@ const Hero = () => {
           />
         </div>
 
-        <h1 className="special-font hero-heading absolute bottom-10 right-10 sm:bottom-5 sm:right-5 z-40 text-blue-75">
+        <h1 className="special-font hero-heading absolute bottom-10 right-8 sm:bottom-5 sm:right-8 md:right-10 z-40 text-blue-75">
           K<b>I</b>BO
         </h1>
 
 
       </div>
 
-      <h1 className="special-font hero-heading absolute bottom-10 right-10 sm:bottom-5 sm:right-5 text-black">
+      <h1 className="special-font hero-heading absolute bottom-10 right-8 sm:bottom-5 sm:right-8 md:right-10 text-black">
         K<b>I</b>BO
       </h1>
     </div>
