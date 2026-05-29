@@ -22,6 +22,7 @@ const Footer = () => {
   const [systemTime, setSystemTime] = useState("");
 
   const terminalEndRef = useRef(null);
+  const isInitialMount = useRef(true);
 
   // Timezone and Clock tick
   useEffect(() => {
@@ -57,6 +58,10 @@ const Footer = () => {
 
   // Auto Scroll CLI terminal to bottom
   useEffect(() => {
+    if (isInitialMount.current) {
+      isInitialMount.current = false;
+      return;
+    }
     if (terminalEndRef.current) {
       terminalEndRef.current.scrollIntoView({ behavior: "smooth" });
     }

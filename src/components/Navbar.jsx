@@ -155,92 +155,99 @@ const NavBar = () => {
   };
 
   return (
-    <div
-      ref={navContainerRef}
-      className="fixed inset-x-0 top-4 z-50 h-16 border border-transparent rounded-lg transition-all duration-700 sm:inset-x-6 mx-4 sm:mx-6"
-    >
-      <header className="absolute top-1/2 w-full -translate-y-1/2">
-        <nav className="flex size-full items-center justify-between p-4">
-          
-          {/* Logo and Branding Link */}
-          <div className="flex items-center gap-7">
-            <a href="#home" className="flex items-center gap-2 group">
-              <img src="/img/logo.png" alt="logo" className="w-10" />
-            </a>
-          </div>
-
-          {/* Right Navigation & Audio Actions */}
-          <div className="flex h-full items-center gap-6">
+    <>
+      <div
+        ref={navContainerRef}
+        className="fixed inset-x-0 top-4 z-50 h-16 border border-transparent rounded-lg transition-all duration-700 sm:inset-x-6 mx-4 sm:mx-6"
+      >
+        <header className="absolute top-1/2 w-full -translate-y-1/2">
+          <nav className="flex size-full items-center justify-between p-4">
             
-            {/* Desktop Navigation Links */}
-            <div className="hidden md:flex items-center gap-1">
-              {navItems.map((item, index) => {
-                const isActive = activeSection === item.id;
-                return (
-                  <a
-                    key={index}
-                    href={`#${item.id}`}
-                    className={clsx(
-                      "relative px-4 py-2 font-general text-xs uppercase transition-all duration-300 select-none",
-                      isActive 
-                        ? "text-cyan-400 font-bold tracking-wider drop-shadow-[0_0_8px_rgba(6,182,212,0.5)]" 
-                        : "text-blue-50 hover:text-cyan-400/80"
-                    )}
-                  >
-                    {item.name}
-                    {/* Glowing active line indicator */}
-                    <span 
-                      className={clsx(
-                        "absolute bottom-0 left-4 right-4 h-[2px] bg-cyan-400 transition-transform duration-300 origin-center",
-                        isActive ? "scale-x-100" : "scale-x-0"
-                      )} 
-                    />
-                  </a>
-                );
-              })}
+            {/* Logo and Branding Link */}
+            <div className="flex items-center gap-7">
+              <a href="#home" className="flex items-center gap-2 group">
+                <img src="/img/logo.png" alt="logo" className="w-10" />
+              </a>
             </div>
 
-            {/* Audio Loop Playback Trigger */}
-            <button
-              onClick={toggleAudioIndicator}
-              className="flex items-center space-x-0.5 bg-neutral-950/40 hover:bg-neutral-900 border border-neutral-800/80 hover:border-cyan-500/20 px-3 py-2 rounded-full transition-all cursor-pointer group"
-              title={isAudioPlaying ? "Mute Background Score" : "Play Background Score"}
-            >
-              <audio
-                ref={audioElementRef}
-                className="hidden"
-                src="/audio/loop.mp3"
-                loop
-              />
-              {[1, 2, 3, 4].map((bar) => (
-                <div
-                  key={bar}
-                  className={clsx("indicator-line !bg-cyan-400 group-hover:!bg-white", {
-                    active: isIndicatorActive,
-                  })}
-                  style={{
-                    animationDelay: `${bar * 0.1}s`,
-                  }}
-                />
-              ))}
-            </button>
+            {/* Right Navigation & Audio Actions */}
+            <div className="flex h-full items-center gap-6">
+              
+              {/* Desktop Navigation Links */}
+              <div className="hidden md:flex items-center gap-1">
+                {navItems.map((item, index) => {
+                  const isActive = activeSection === item.id;
+                  return (
+                    <a
+                      key={index}
+                      href={`#${item.id}`}
+                      className={clsx(
+                        "relative px-4 py-2 font-general text-xs uppercase transition-all duration-300 select-none",
+                        isActive 
+                          ? "text-cyan-400 font-bold tracking-wider drop-shadow-[0_0_8px_rgba(6,182,212,0.5)]" 
+                          : "text-blue-50 hover:text-cyan-400/80"
+                      )}
+                    >
+                      {item.name}
+                      {/* Glowing active line indicator */}
+                      <span 
+                        className={clsx(
+                          "absolute bottom-0 left-4 right-4 h-[2px] bg-cyan-400 transition-transform duration-300 origin-center",
+                          isActive ? "scale-x-100" : "scale-x-0"
+                        )} 
+                      />
+                    </a>
+                  );
+                })}
+              </div>
 
-            {/* Responsive Mobile Hamburg Menu Button */}
-            <button
-              onClick={toggleMobileMenu}
-              className="flex md:hidden items-center justify-center h-9 w-9 rounded-full bg-neutral-950/60 border border-neutral-800 text-white hover:text-cyan-400 hover:border-cyan-500/30 transition-all cursor-pointer"
-              title="Open Navigation Deck"
-            >
-              {isMobileMenuOpen ? <FaTimes size={14} /> : <FaBars size={14} />}
-            </button>
-          </div>
-        </nav>
-      </header>
+              {/* Audio Loop Playback Trigger */}
+              <button
+                onClick={toggleAudioIndicator}
+                className="flex items-center space-x-0.5 bg-neutral-950/40 hover:bg-neutral-900 border border-neutral-800/80 hover:border-cyan-500/20 px-3 py-2 rounded-full transition-all cursor-pointer group"
+                title={isAudioPlaying ? "Mute Background Score" : "Play Background Score"}
+              >
+                <audio
+                  ref={audioElementRef}
+                  className="hidden"
+                  src="/audio/loop.mp3"
+                  loop
+                />
+                {[1, 2, 3, 4].map((bar) => (
+                  <div
+                    key={bar}
+                    className={clsx("indicator-line !bg-cyan-400 group-hover:!bg-white", {
+                      active: isIndicatorActive,
+                    })}
+                    style={{
+                      animationDelay: `${bar * 0.1}s`,
+                    }}
+                  />
+                ))}
+              </button>
+
+              {/* Responsive Mobile Hamburg Menu Button */}
+              <button
+                onClick={toggleMobileMenu}
+                className={clsx(
+                  "flex md:hidden items-center justify-center h-9 w-9 rounded-full transition-all duration-300 cursor-pointer border",
+                  isMobileMenuOpen
+                    ? "bg-cyan-950/80 border-cyan-500/30 text-cyan-400 shadow-[0_0_15px_rgba(6,182,212,0.4)]"
+                    : "bg-neutral-950/60 border-neutral-800 text-white hover:text-cyan-400 hover:border-cyan-500/30"
+                )}
+                title={isMobileMenuOpen ? "Close Navigation Deck" : "Open Navigation Deck"}
+              >
+                {isMobileMenuOpen ? <FaTimes size={14} /> : <FaBars size={14} />}
+              </button>
+            </div>
+          </nav>
+        </header>
+      </div>
 
       {/* Responsive Cyber Mobile Drawer Menu Overlay */}
       <div
         className={clsx(
-          "fixed inset-0 top-[4.5rem] z-40 bg-neutral-950/95 backdrop-blur-lg border-t border-neutral-900 flex flex-col justify-between p-8 md:hidden transition-all duration-500 ease-in-out transform origin-top",
+          "fixed inset-0 top-0 pt-24 z-40 bg-neutral-950/95 backdrop-blur-lg border-b border-neutral-900 flex flex-col justify-between p-8 md:hidden transition-all duration-500 ease-in-out transform origin-top",
           isMobileMenuOpen ? "opacity-100 scale-y-100" : "opacity-0 scale-y-0 pointer-events-none"
         )}
       >
@@ -298,7 +305,7 @@ const NavBar = () => {
           </div>
         </div>
       </div>
-    </div>
+    </>
   );
 };
 

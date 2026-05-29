@@ -3,7 +3,7 @@ import Button from "./Button";
 
 const ImageClipBox = ({ src, clipClass }) => (
   <div className={clipClass}>
-    <img src={src} />
+    <img src={src} alt="Contact Graphic" width="480" height="480" className="size-full object-cover" />
   </div>
 );
 

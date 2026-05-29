@@ -69,7 +69,9 @@ const FloatingImage = () => {
                   onMouseEnter={handleMouseLeave}
                   src="/img/entrance.webp"
                   alt="entrance.webp"
-                  className="object-contain"
+                  width="1920"
+                  height="1080"
+                  className="size-full object-contain"
                 />
               </div>
             </div>
