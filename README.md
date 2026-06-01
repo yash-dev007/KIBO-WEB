@@ -119,4 +119,4 @@ Contributions are highly appreciated! Please review our detailed contribution gu
 
 This project is licensed under the Apache License 2.0. See the full license details in the [LICENSE](LICENSE) file at the root of the repository.
 
-© 2026 Yash Patil
+© 2026 Yash
