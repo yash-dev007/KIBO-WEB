@@ -1,11 +1,12 @@
 import gsap from "gsap";
-import { useRef } from "react";
+import { useRef, useEffect } from "react";
 
 import Button from "./Button";
 import AnimatedTitle from "./AnimatedTitle";
 
-const FloatingImage = () => {
+const Story = () => {
   const frameRef = useRef(null);
+  const rectRef = useRef(null);
 
   const handleMouseMove = (e) => {
     const { clientX, clientY } = e;
@@ -13,7 +14,10 @@ const FloatingImage = () => {
 
     if (!element) return;
 
-    const rect = element.getBoundingClientRect();
+    if (!rectRef.current) {
+      rectRef.current = element.getBoundingClientRect();
+    }
+    const rect = rectRef.current;
     const xPos = clientX - rect.left;
     const yPos = clientY - rect.top;
 
@@ -33,6 +37,7 @@ const FloatingImage = () => {
   };
 
   const handleMouseLeave = () => {
+    rectRef.current = null;
     const element = frameRef.current;
 
     if (element) {
@@ -44,6 +49,14 @@ const FloatingImage = () => {
       });
     }
   };
+
+  useEffect(() => {
+    return () => {
+      if (frameRef.current) {
+        gsap.killTweensOf(frameRef.current);
+      }
+    };
+  }, []);
 
   return (
     <div id="story" className="min-h-dvh w-full bg-black text-blue-50">
@@ -123,4 +136,4 @@ const FloatingImage = () => {
   );
 };
 
-export default FloatingImage;
+export default Story;

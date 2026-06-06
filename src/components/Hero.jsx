@@ -9,6 +9,9 @@ import VideoPreview from "./VideoPreview";
 
 gsap.registerPlugin(ScrollTrigger);
 
+const videoIds = [1, 4];
+const totalVideos = videoIds.length;
+
 const Hero = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [hasClicked, setHasClicked] = useState(false);
@@ -16,8 +19,6 @@ const Hero = () => {
   const [loading, setLoading] = useState(true);
   const [loadedVideos, setLoadedVideos] = useState(0);
 
-  const videoIds = [1, 4];
-  const totalVideos = videoIds.length;
   const nextVdRef = useRef(null);
 
   const handleVideoLoad = () => {
@@ -25,7 +26,7 @@ const Hero = () => {
   };
 
   useEffect(() => {
-    if (loadedVideos >= totalVideos - 1) {
+    if (loadedVideos >= totalVideos) {
       setLoading(false);
       return;
     }
@@ -87,7 +88,7 @@ const Hero = () => {
         scrub: true,
       },
     });
-  });
+  }, { dependencies: [] });
 
   const getVideoSrc = (index) => `videos/hero-${videoIds[index]}.mp4`;
 
@@ -140,9 +141,7 @@ const Hero = () => {
             onLoadedData={handleVideoLoad}
           />
           <video
-            src={getVideoSrc(
-              currentIndex === totalVideos - 1 ? 0 : currentIndex
-            )}
+            src={getVideoSrc(currentIndex)}
             autoPlay
             loop
             muted

@@ -5,6 +5,41 @@ import clsx from "clsx";
 
 gsap.registerPlugin(ScrollTrigger);
 
+const decodeHTMLEntities = (text) => {
+  if (typeof text !== "string") return text;
+  return text
+    .replace(/&amp;/gi, "&")
+    .replace(/&#39;/g, "'")
+    .replace(/&apos;/gi, "'")
+    .replace(/&quot;/gi, '"')
+    .replace(/&lt;/gi, "<")
+    .replace(/&gt;/gi, ">");
+};
+
+const parseWord = (word) => {
+  if (typeof word !== "string") return word;
+  
+  const parts = word.split(/(<\/?[bB]>)/);
+  let isBold = false;
+  
+  return parts.map((part, index) => {
+    if (/^<[bB]>$/.test(part)) {
+      isBold = true;
+      return null;
+    }
+    if (/^<\/[bB]>$/.test(part)) {
+      isBold = false;
+      return null;
+    }
+    
+    const decoded = decodeHTMLEntities(part);
+    if (isBold) {
+      return <b key={index}>{decoded}</b>;
+    }
+    return decoded;
+  }).filter(part => part !== null);
+};
+
 const AnimatedTitle = ({ title, containerClass }) => {
   const containerRef = useRef(null);
 
@@ -32,7 +67,7 @@ const AnimatedTitle = ({ title, containerClass }) => {
     }, containerRef);
 
     return () => ctx.revert(); // Clean up on unmount
-  }, []);
+  }, [title]);
 
   return (
     <div ref={containerRef} className={clsx("animated-title", containerClass)}>
@@ -42,11 +77,9 @@ const AnimatedTitle = ({ title, containerClass }) => {
           className="flex-center max-w-full flex-wrap gap-2 px-10 md:gap-3"
         >
           {line.split(" ").map((word, idx) => (
-            <span
-              key={idx}
-              className="animated-word"
-              dangerouslySetInnerHTML={{ __html: word }}
-            />
+            <span key={idx} className="animated-word">
+              {parseWord(word)}
+            </span>
           ))}
         </div>
       ))}

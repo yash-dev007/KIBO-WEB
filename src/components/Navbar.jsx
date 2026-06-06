@@ -2,7 +2,7 @@ import clsx from "clsx";
 import gsap from "gsap";
 import { useWindowScroll } from "react-use";
 import { useEffect, useRef, useState } from "react";
-import { FaBars, FaTimes, FaGlobe, FaChevronRight } from "react-icons/fa";
+import { FaBars, FaTimes, FaChevronRight } from "react-icons/fa";
 
 // Corrected nav items matching the actual sections of the website
 const navItems = [
@@ -20,13 +20,15 @@ const NavBar = () => {
   
   // Navigation states
   const [isNavVisible, setIsNavVisible] = useState(true);
-  const [lastScrollY, setLastScrollY] = useState(0);
+  const lastScrollYRef = useRef(0);
   const [activeSection, setActiveSection] = useState("home");
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   // Refs
   const audioElementRef = useRef(null);
   const navContainerRef = useRef(null);
+  const mobileMenuRef = useRef(null);
+  const toggleButtonRef = useRef(null);
 
   const { y: currentScrollY } = useWindowScroll();
 
@@ -39,9 +41,10 @@ const NavBar = () => {
 
   // Manage audio playback
   useEffect(() => {
+    const audio = audioElementRef.current;
     if (isAudioPlaying) {
-      if (audioElementRef.current) {
-        audioElementRef.current.play()
+      if (audio) {
+        audio.play()
           .catch((err) => {
             console.warn("Audio playback failed or was blocked by browser autoplay rules:", err);
             setIsAudioPlaying(false);
@@ -49,14 +52,14 @@ const NavBar = () => {
           });
       }
     } else {
-      if (audioElementRef.current) {
-        audioElementRef.current.pause();
+      if (audio) {
+        audio.pause();
       }
     }
 
     return () => {
-      if (audioElementRef.current) {
-        audioElementRef.current.pause();
+      if (audio) {
+        audio.pause();
       }
     };
   }, [isAudioPlaying]);
@@ -93,6 +96,7 @@ const NavBar = () => {
       setIsNavVisible(true);
       return;
     }
+    const lastScrollY = lastScrollYRef.current;
     if (currentScrollY === 0) {
       setIsNavVisible(true);
       navContainerRef.current.classList.remove("floating-nav", "backdrop-blur-md", "bg-black/40", "border-cyan-500/10");
@@ -104,23 +108,24 @@ const NavBar = () => {
       navContainerRef.current.classList.add("floating-nav", "backdrop-blur-md", "bg-black/40", "border-cyan-500/10");
     }
 
-    setLastScrollY(currentScrollY);
-  }, [currentScrollY, lastScrollY, isMobileMenuOpen]);
+    lastScrollYRef.current = currentScrollY;
+  }, [currentScrollY, isMobileMenuOpen]);
 
   // GSAP animation for visibility state
   useEffect(() => {
-    gsap.to(navContainerRef.current, {
+    const tween = gsap.to(navContainerRef.current, {
       y: isNavVisible ? 0 : -100,
       opacity: isNavVisible ? 1 : 0,
       duration: 0.25,
       ease: "power2.out"
     });
+    return () => {
+      tween.kill();
+    };
   }, [isNavVisible]);
 
   // Intersection Observer to track active section in viewport
   useEffect(() => {
-    const observers = [];
-    
     const handleIntersect = (entries) => {
       entries.forEach((entry) => {
         if (entry.isIntersecting && entry.intersectionRatio >= 0.3) {
@@ -149,6 +154,60 @@ const NavBar = () => {
     };
   }, []);
 
+  // Escape key closing, scroll lock, and keyboard focus trap
+  useEffect(() => {
+    if (!isMobileMenuOpen) return;
+
+    const handleKeyDown = (e) => {
+      if (e.key === "Escape") {
+        setIsMobileMenuOpen(false);
+        toggleButtonRef.current?.focus();
+        return;
+      }
+
+      if (e.key === "Tab") {
+        if (!mobileMenuRef.current || !toggleButtonRef.current) return;
+
+        const focusableDrawerElements = Array.from(
+          mobileMenuRef.current.querySelectorAll(
+            'a[href], button:not([disabled]), input:not([disabled]), textarea:not([disabled]), select:not([disabled]), [tabindex]:not([tabindex="-1"])'
+          )
+        );
+
+        const focusableElements = [toggleButtonRef.current, ...focusableDrawerElements];
+        const firstElement = focusableElements[0];
+        const lastElement = focusableElements[focusableElements.length - 1];
+
+        if (e.shiftKey) {
+          if (document.activeElement === firstElement) {
+            lastElement.focus();
+            e.preventDefault();
+          }
+        } else {
+          if (document.activeElement === lastElement) {
+            firstElement.focus();
+            e.preventDefault();
+          }
+        }
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [isMobileMenuOpen]);
+
+  useEffect(() => {
+    if (isMobileMenuOpen) {
+      const originalOverflow = document.body.style.overflow;
+      document.body.style.overflow = "hidden";
+      return () => {
+        document.body.style.overflow = originalOverflow;
+      };
+    }
+  }, [isMobileMenuOpen]);
+
   // Toggle responsive mobile menu drawer
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen((prev) => !prev);
@@ -165,7 +224,7 @@ const NavBar = () => {
             
             {/* Logo and Branding Link */}
             <div className="flex items-center gap-7">
-              <a href="#home" className="flex items-center gap-2 group">
+              <a href="#home" className="flex items-center gap-2 group" aria-label="Kibo Home">
                 <img src="/img/logo.png" alt="logo" className="w-10" />
               </a>
             </div>
@@ -206,6 +265,7 @@ const NavBar = () => {
                 onClick={toggleAudioIndicator}
                 className="flex items-center space-x-0.5 bg-neutral-950/40 hover:bg-neutral-900 border border-neutral-800/80 hover:border-cyan-500/20 px-3 py-2 rounded-full transition-all cursor-pointer group"
                 title={isAudioPlaying ? "Mute Background Score" : "Play Background Score"}
+                aria-label={isAudioPlaying ? "Mute Background Score" : "Play Background Score"}
               >
                 <audio
                   ref={audioElementRef}
@@ -214,9 +274,9 @@ const NavBar = () => {
                   loop
                 />
                 {[1, 2, 3, 4].map((bar) => (
-                  <div
+                  <span
                     key={bar}
-                    className={clsx("indicator-line !bg-cyan-400 group-hover:!bg-white", {
+                    className={clsx("indicator-line inline-block !bg-cyan-400 group-hover:!bg-white", {
                       active: isIndicatorActive,
                     })}
                     style={{
@@ -228,6 +288,7 @@ const NavBar = () => {
 
               {/* Responsive Mobile Hamburg Menu Button */}
               <button
+                ref={toggleButtonRef}
                 onClick={toggleMobileMenu}
                 className={clsx(
                   "flex md:hidden items-center justify-center h-9 w-9 rounded-full transition-all duration-300 cursor-pointer border",
@@ -236,6 +297,9 @@ const NavBar = () => {
                     : "bg-neutral-950/60 border-neutral-800 text-white hover:text-cyan-400 hover:border-cyan-500/30"
                 )}
                 title={isMobileMenuOpen ? "Close Navigation Deck" : "Open Navigation Deck"}
+                aria-label={isMobileMenuOpen ? "Close navigation menu" : "Open navigation menu"}
+                aria-expanded={isMobileMenuOpen}
+                aria-controls="mobile-navigation-deck"
               >
                 {isMobileMenuOpen ? <FaTimes size={14} /> : <FaBars size={14} />}
               </button>
@@ -246,9 +310,12 @@ const NavBar = () => {
 
       {/* Responsive Cyber Mobile Drawer Menu Overlay */}
       <div
+        ref={mobileMenuRef}
+        id="mobile-navigation-deck"
+        aria-hidden={!isMobileMenuOpen}
         className={clsx(
           "fixed inset-0 top-0 pt-24 z-40 bg-neutral-950/95 backdrop-blur-lg border-b border-neutral-900 flex flex-col justify-between p-8 md:hidden transition-all duration-500 ease-in-out transform origin-top",
-          isMobileMenuOpen ? "opacity-100 scale-y-100" : "opacity-0 scale-y-0 pointer-events-none"
+          isMobileMenuOpen ? "opacity-100 scale-y-100" : "opacity-0 scale-y-0 pointer-events-none invisible"
         )}
       >
         {/* Mobile Navigation List */}

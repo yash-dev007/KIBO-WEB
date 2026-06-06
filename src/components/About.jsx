@@ -24,7 +24,7 @@ const About = () => {
       height: "100vh",
       borderRadius: 0,
     });
-  });
+  }, { dependencies: [] });
 
   return (
     <div id="about" className="min-h-screen w-full">
@@ -47,7 +47,7 @@ const About = () => {
         </div>
       </div>
 
-      <div className="h-dvh w-full" id="clip">
+      <div className="relative h-dvh w-full" id="clip">
         <div className="mask-clip-path about-image">
           <img
             src="img/about.webp"

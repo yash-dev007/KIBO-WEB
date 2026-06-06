@@ -6,10 +6,14 @@ export const VideoPreview = ({ children }) => {
 
   const sectionRef = useRef(null); // Reference for the container section
   const contentRef = useRef(null); // Reference for the inner content
+  const rectRef = useRef(null);
 
   // Handles mouse movement over the container
   const handleMouseMove = ({ clientX, clientY, currentTarget }) => {
-    const rect = currentTarget.getBoundingClientRect(); // Get dimensions of the container
+    if (!rectRef.current) {
+      rectRef.current = currentTarget.getBoundingClientRect();
+    }
+    const rect = rectRef.current; // Get dimensions of the container
 
     const xOffset = clientX - (rect.left + rect.width / 2); // Calculate X offset
     const yOffset = clientY - (rect.top + rect.height / 2); // Calculate Y offset
@@ -37,6 +41,13 @@ export const VideoPreview = ({ children }) => {
   };
 
   useEffect(() => {
+    return () => {
+      if (sectionRef.current) gsap.killTweensOf(sectionRef.current);
+      if (contentRef.current) gsap.killTweensOf(contentRef.current);
+    };
+  }, []);
+
+  useEffect(() => {
     // Reset the position of the content when hover ends
     if (!isHovering) {
       gsap.to(sectionRef.current, {
@@ -62,7 +73,10 @@ export const VideoPreview = ({ children }) => {
       ref={sectionRef}
       onMouseMove={handleMouseMove}
       onMouseEnter={() => setIsHovering(true)}
-      onMouseLeave={() => setIsHovering(false)}
+      onMouseLeave={() => {
+        setIsHovering(false);
+        rectRef.current = null;
+      }}
       className="absolute z-50 size-full overflow-hidden rounded-lg"
       style={{
         perspective: "500px",

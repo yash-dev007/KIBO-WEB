@@ -1,16 +1,9 @@
 import { useState, useEffect, useRef } from "react";
-import { FaGithub, FaTerminal, FaTrash, FaCheckCircle, FaArrowUp, FaTimes } from "react-icons/fa";
+import { FaGithub, FaTerminal, FaTrash, FaTimes } from "react-icons/fa";
 import { TiLocationArrow } from "react-icons/ti";
 
-const Footer = () => {
-  // CLI State
-  const [cliInput, setCliInput] = useState("");
-  const [terminalLogs, setTerminalLogs] = useState([
-    { type: "system", text: "KIBO v4.8 Hyperion Core Online." },
-    { type: "system", text: "Type /help or click a quick-command below to start." }
-  ]);
-  
-  // Real-time fluctuating telemetry data
+// 1. TelemetryHUD component
+const TelemetryHUD = ({ telemetryRef }) => {
   const [telemetry, setTelemetry] = useState({
     cpu: 0.08,
     memory: 42.4,
@@ -18,13 +11,69 @@ const Footer = () => {
     vectors: 1402
   });
 
-  // Live system clock state
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setTelemetry((prev) => {
+        const nextTelemetry = {
+          cpu: +(Math.max(0.02, Math.min(0.25, prev.cpu + (Math.random() - 0.5) * 0.03))).toFixed(3),
+          memory: +(Math.max(40.1, Math.min(44.9, prev.memory + (Math.random() - 0.5) * 0.2))).toFixed(1),
+          latency: Math.max(18, Math.min(35, prev.latency + Math.round((Math.random() - 0.5) * 4))),
+          vectors: prev.vectors
+        };
+        telemetryRef.current = nextTelemetry;
+        return nextTelemetry;
+      });
+    }, 1500);
+
+    return () => clearInterval(interval);
+  }, [telemetryRef]);
+
+  return (
+    <div className="rounded-lg border border-neutral-900 bg-black/40 p-4 font-mono text-[11px] text-neutral-400 space-y-3 backdrop-blur-md">
+      <div className="flex justify-between border-b border-neutral-900 pb-1.5 text-white font-bold uppercase tracking-wider">
+        <span>[ Telemetry Core ]</span>
+        <span className="text-cyan-400">active_session</span>
+      </div>
+      
+      <div className="space-y-1">
+        <div className="flex justify-between">
+          <span>CORE CPU OVERHEAD</span>
+          <span className="text-cyan-400">{telemetry.cpu}%</span>
+        </div>
+        <div className="h-1 w-full bg-neutral-900 rounded-full overflow-hidden">
+          <div 
+            className="h-full bg-cyan-400 transition-all duration-1000" 
+            style={{ width: `${Math.min(100, telemetry.cpu * 350)}%` }}
+          />
+        </div>
+      </div>
+
+      <div className="space-y-1">
+        <div className="flex justify-between">
+          <span>VECTOR RAG NODES</span>
+          <span className="text-cyan-400">{telemetry.vectors} ITEMS</span>
+        </div>
+        <div className="h-1 w-full bg-neutral-900 rounded-full overflow-hidden">
+          <div className="h-full bg-cyan-500 w-3/4" />
+        </div>
+      </div>
+
+      <div className="flex justify-between pt-1 border-t border-neutral-900/50">
+        <span>TTS ENGINE PIPER</span>
+        <span className="text-emerald-400">READY</span>
+      </div>
+      <div className="flex justify-between">
+        <span>SYSTEM PING LATENCY</span>
+        <span className="text-yellow-500 font-bold">{telemetry.latency}ms</span>
+      </div>
+    </div>
+  );
+};
+
+// 2. SystemClock component
+const SystemClock = () => {
   const [systemTime, setSystemTime] = useState("");
 
-  const terminalEndRef = useRef(null);
-  const isInitialMount = useRef(true);
-
-  // Timezone and Clock tick
   useEffect(() => {
     const updateTime = () => {
       const date = new Date();
@@ -42,19 +91,24 @@ const Footer = () => {
     return () => clearInterval(interval);
   }, []);
 
-  // Telemetry fluctuation effect
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setTelemetry(prev => ({
-        cpu: +(Math.max(0.02, Math.min(0.25, prev.cpu + (Math.random() - 0.5) * 0.03))).toFixed(3),
-        memory: +(Math.max(40.1, Math.min(44.9, prev.memory + (Math.random() - 0.5) * 0.2))).toFixed(1),
-        latency: Math.max(18, Math.min(35, prev.latency + Math.round((Math.random() - 0.5) * 4))),
-        vectors: prev.vectors
-      }));
-    }, 1500);
+  return (
+    <div className="hidden lg:flex items-center gap-2.5 border border-neutral-900 bg-neutral-950/80 px-4 py-1.5 rounded-full text-xs font-mono text-neutral-500">
+      <span className="text-cyan-400 font-semibold select-none">NODE_TIME ::</span>
+      <span>{systemTime}</span>
+    </div>
+  );
+};
 
-    return () => clearInterval(interval);
-  }, []);
+// 3. TerminalCore component
+const TerminalCore = ({ telemetryRef }) => {
+  const [cliInput, setCliInput] = useState("");
+  const [terminalLogs, setTerminalLogs] = useState([
+    { type: "system", text: "KIBO v4.8 Hyperion Core Online." },
+    { type: "system", text: "Type /help or click a quick-command below to start." }
+  ]);
+
+  const terminalEndRef = useRef(null);
+  const isInitialMount = useRef(true);
 
   // Auto Scroll CLI terminal to bottom
   useEffect(() => {
@@ -87,6 +141,7 @@ const Footer = () => {
         { type: "info", text: "  /clear    - Flush system terminal buffer" }
       );
     } else if (lowerCmd === "/status") {
+      const telemetry = telemetryRef.current;
       newLogs.push(
         { type: "success", text: "🟢 KIBO DIAGNOSTIC COMPLETED: ALL CHANNELS NOMINAL" },
         { type: "info", text: `  Core Load: ${telemetry.cpu}% CPU overhead` },
@@ -130,6 +185,106 @@ const Footer = () => {
     }
   };
 
+  return (
+    <div className="flex flex-col gap-4 lg:col-span-5">
+      <div className="flex items-center gap-2">
+        <FaTerminal className="text-cyan-400 text-sm animate-pulse" />
+        <h3 className="font-general text-xs uppercase tracking-widest text-white font-semibold">
+          KIBO Interface Terminal
+        </h3>
+      </div>
+      
+      {/* Interactive Terminal Shell */}
+      <div className="flex flex-col h-56 rounded-lg border border-neutral-900 bg-neutral-950/80 p-4 font-mono text-[11px] leading-relaxed backdrop-blur-md shadow-2xl">
+        <div className="flex-1 overflow-y-auto space-y-1.5 scrollbar-thin scrollbar-thumb-neutral-900 pr-1">
+          {terminalLogs.map((log, idx) => {
+            let colorClass = "text-neutral-400";
+            if (log.type === "user") colorClass = "text-cyan-300 font-medium";
+            else if (log.type === "system") colorClass = "text-neutral-500";
+            else if (log.type === "success") colorClass = "text-emerald-400 font-semibold";
+            else if (log.type === "info") colorClass = "text-cyan-400";
+            else if (log.type === "error") colorClass = "text-rose-400 font-semibold";
+            
+            return (
+              <div key={idx} className="whitespace-pre-wrap">
+                <span className={colorClass}>{log.text}</span>
+              </div>
+            );
+          })}
+          <div ref={terminalEndRef} />
+        </div>
+
+        {/* Terminal Command Input */}
+        <div className="mt-3 flex items-center border-t border-neutral-900 pt-2.5">
+          <span className="text-cyan-400 font-bold mr-1.5 select-none text-xs">guest@kibo_core:~$</span>
+          <input
+            type="text"
+            value={cliInput}
+            onChange={(e) => setCliInput(e.target.value)}
+            onKeyDown={handleKeyPress}
+            placeholder="Type /help..."
+            className="flex-1 bg-transparent text-white focus:outline-none placeholder-neutral-700 text-xs font-mono"
+            aria-label="Terminal Command Input"
+          />
+          {cliInput && (
+            <button 
+              onClick={() => setCliInput("")}
+              className="text-neutral-600 hover:text-white transition-colors p-1"
+              aria-label="Clear CLI Input"
+            >
+              <FaTimes size={10} />
+            </button>
+          )}
+        </div>
+      </div>
+
+      {/* Clickable Quick Command Pills */}
+      <div className="flex flex-wrap gap-2 pt-1">
+        <button 
+          onClick={() => executeCommand("/help")}
+          className="rounded-full bg-neutral-900 px-3 py-1 text-[10px] font-mono text-neutral-400 hover:text-white hover:bg-cyan-950/40 border border-neutral-800 hover:border-cyan-800 transition-all duration-300"
+        >
+          /help
+        </button>
+        <button 
+          onClick={() => executeCommand("/status")}
+          className="rounded-full bg-neutral-900 px-3 py-1 text-[10px] font-mono text-neutral-400 hover:text-white hover:bg-cyan-950/40 border border-neutral-800 hover:border-cyan-800 transition-all duration-300"
+        >
+          /status
+        </button>
+        <button 
+          onClick={() => executeCommand("/memory")}
+          className="rounded-full bg-neutral-900 px-3 py-1 text-[10px] font-mono text-neutral-400 hover:text-white hover:bg-cyan-950/40 border border-neutral-800 hover:border-cyan-800 transition-all duration-300"
+        >
+          /memory
+        </button>
+        <button 
+          onClick={() => executeCommand("/download")}
+          className="rounded-full bg-neutral-900 px-3 py-1 text-[10px] font-mono text-neutral-400 hover:text-white hover:bg-cyan-950/40 border border-neutral-800 hover:border-cyan-800 transition-all duration-300"
+        >
+          /download
+        </button>
+        <button 
+          onClick={() => executeCommand("/clear")}
+          className="ml-auto rounded-full px-2.5 py-1 text-[10px] font-mono text-neutral-600 hover:text-rose-400 transition-colors"
+          title="Clear Logs"
+        >
+          <FaTrash className="inline mr-1" size={8} /> Clear
+        </button>
+      </div>
+    </div>
+  );
+};
+
+// 4. Main Footer component
+const Footer = () => {
+  const telemetryRef = useRef({
+    cpu: 0.08,
+    memory: 42.4,
+    latency: 24,
+    vectors: 1402
+  });
+
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
@@ -171,132 +326,11 @@ const Footer = () => {
             </p>
 
             {/* Hardware Telemetry HUD Panel */}
-            <div className="rounded-lg border border-neutral-900 bg-black/40 p-4 font-mono text-[11px] text-neutral-400 space-y-3 backdrop-blur-md">
-              <div className="flex justify-between border-b border-neutral-900 pb-1.5 text-white font-bold uppercase tracking-wider">
-                <span>[ Telemetry Core ]</span>
-                <span className="text-cyan-400">active_session</span>
-              </div>
-              
-              <div className="space-y-1">
-                <div className="flex justify-between">
-                  <span>CORE CPU OVERHEAD</span>
-                  <span className="text-cyan-400">{telemetry.cpu}%</span>
-                </div>
-                <div className="h-1 w-full bg-neutral-900 rounded-full overflow-hidden">
-                  <div 
-                    className="h-full bg-cyan-400 transition-all duration-1000" 
-                    style={{ width: `${Math.min(100, telemetry.cpu * 350)}%` }}
-                  />
-                </div>
-              </div>
-
-              <div className="space-y-1">
-                <div className="flex justify-between">
-                  <span>VECTOR RAG NODES</span>
-                  <span className="text-cyan-400">{telemetry.vectors} ITEMS</span>
-                </div>
-                <div className="h-1 w-full bg-neutral-900 rounded-full overflow-hidden">
-                  <div className="h-full bg-cyan-500 w-3/4" />
-                </div>
-              </div>
-
-              <div className="flex justify-between pt-1 border-t border-neutral-900/50">
-                <span>TTS ENGINE PIPER</span>
-                <span className="text-emerald-400">READY</span>
-              </div>
-              <div className="flex justify-between">
-                <span>SYSTEM PING LATENCY</span>
-                <span className="text-yellow-500 font-bold">{telemetry.latency}ms</span>
-              </div>
-            </div>
+            <TelemetryHUD telemetryRef={telemetryRef} />
           </div>
 
           {/* Column 2: Live Interactive Command Terminal (Span 5) */}
-          <div className="flex flex-col gap-4 lg:col-span-5">
-            <div className="flex items-center gap-2">
-              <FaTerminal className="text-cyan-400 text-sm animate-pulse" />
-              <h3 className="font-general text-xs uppercase tracking-widest text-white font-semibold">
-                KIBO Interface Terminal
-              </h3>
-            </div>
-            
-            {/* Interactive Terminal Shell */}
-            <div className="flex flex-col h-56 rounded-lg border border-neutral-900 bg-neutral-950/80 p-4 font-mono text-[11px] leading-relaxed backdrop-blur-md shadow-2xl">
-              <div className="flex-1 overflow-y-auto space-y-1.5 scrollbar-thin scrollbar-thumb-neutral-900 pr-1">
-                {terminalLogs.map((log, idx) => {
-                  let colorClass = "text-neutral-400";
-                  if (log.type === "user") colorClass = "text-cyan-300 font-medium";
-                  else if (log.type === "system") colorClass = "text-neutral-500";
-                  else if (log.type === "success") colorClass = "text-emerald-400 font-semibold";
-                  else if (log.type === "info") colorClass = "text-cyan-400";
-                  else if (log.type === "error") colorClass = "text-rose-400 font-semibold";
-                  
-                  return (
-                    <div key={idx} className="whitespace-pre-wrap">
-                      <span className={colorClass}>{log.text}</span>
-                    </div>
-                  );
-                })}
-                <div ref={terminalEndRef} />
-              </div>
-
-              {/* Terminal Command Input */}
-              <div className="mt-3 flex items-center border-t border-neutral-900 pt-2.5">
-                <span className="text-cyan-400 font-bold mr-1.5 select-none text-xs">guest@kibo_core:~$</span>
-                <input
-                  type="text"
-                  value={cliInput}
-                  onChange={(e) => setCliInput(e.target.value)}
-                  onKeyDown={handleKeyPress}
-                  placeholder="Type /help..."
-                  className="flex-1 bg-transparent text-white focus:outline-none placeholder-neutral-700 text-xs font-mono"
-                />
-                {cliInput && (
-                  <button 
-                    onClick={() => setCliInput("")}
-                    className="text-neutral-600 hover:text-white transition-colors p-1"
-                  >
-                    <FaTimes size={10} />
-                  </button>
-                )}
-              </div>
-            </div>
-
-            {/* Clickable Quick Command Pills */}
-            <div className="flex flex-wrap gap-2 pt-1">
-              <button 
-                onClick={() => executeCommand("/help")}
-                className="rounded-full bg-neutral-900 px-3 py-1 text-[10px] font-mono text-neutral-400 hover:text-white hover:bg-cyan-950/40 border border-neutral-800 hover:border-cyan-800 transition-all duration-300"
-              >
-                /help
-              </button>
-              <button 
-                onClick={() => executeCommand("/status")}
-                className="rounded-full bg-neutral-900 px-3 py-1 text-[10px] font-mono text-neutral-400 hover:text-white hover:bg-cyan-950/40 border border-neutral-800 hover:border-cyan-800 transition-all duration-300"
-              >
-                /status
-              </button>
-              <button 
-                onClick={() => executeCommand("/memory")}
-                className="rounded-full bg-neutral-900 px-3 py-1 text-[10px] font-mono text-neutral-400 hover:text-white hover:bg-cyan-950/40 border border-neutral-800 hover:border-cyan-800 transition-all duration-300"
-              >
-                /memory
-              </button>
-              <button 
-                onClick={() => executeCommand("/download")}
-                className="rounded-full bg-neutral-900 px-3 py-1 text-[10px] font-mono text-neutral-400 hover:text-white hover:bg-cyan-950/40 border border-neutral-800 hover:border-cyan-800 transition-all duration-300"
-              >
-                /download
-              </button>
-              <button 
-                onClick={() => executeCommand("/clear")}
-                className="ml-auto rounded-full px-2.5 py-1 text-[10px] font-mono text-neutral-600 hover:text-rose-400 transition-colors"
-                title="Clear Logs"
-              >
-                <FaTrash className="inline mr-1" size={8} /> Clear
-              </button>
-            </div>
-          </div>
+          <TerminalCore telemetryRef={telemetryRef} />
 
           {/* Column 3: High-Tech Navigation Lists & CTA (Span 3) */}
           <div className="grid grid-cols-2 gap-8 lg:col-span-3">
@@ -406,10 +440,7 @@ const Footer = () => {
           </div>
 
           {/* Center Column: Live Telemetry system clock */}
-          <div className="hidden lg:flex items-center gap-2.5 border border-neutral-900 bg-neutral-950/80 px-4 py-1.5 rounded-full text-xs font-mono text-neutral-500">
-            <span className="text-cyan-400 font-semibold select-none">NODE_TIME ::</span>
-            <span>{systemTime}</span>
-          </div>
+          <SystemClock />
 
           {/* GitHub Repository link, Privacy Policy & Scroll-to-Top Compass */}
           <div className="flex items-center gap-4 flex-col sm:flex-row">
@@ -435,6 +466,7 @@ const Footer = () => {
               onClick={scrollToTop}
               className="group relative flex h-10 w-10 items-center justify-center rounded-full bg-neutral-900 border border-neutral-800 hover:bg-cyan-600 hover:border-cyan-500 hover:shadow-[0_0_15px_rgba(6,182,212,0.5)] transition-all duration-300 cursor-pointer"
               title="Return to Core"
+              aria-label="Scroll to top of page"
             >
               <TiLocationArrow className="text-neutral-400 text-lg rotate-[-45deg] group-hover:text-white transition-all group-hover:scale-110" />
               <span className="absolute -top-7 scale-0 group-hover:scale-100 bg-black border border-neutral-900 text-cyan-400 text-[9px] font-mono py-0.5 px-2 rounded tracking-wider transition-all shadow-md pointer-events-none">

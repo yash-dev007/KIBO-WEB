@@ -36,7 +36,7 @@ const Contact = () => {
 
           <AnimatedTitle
             title="let&#39;s cr<b>e</b>ate your <br /> new favorite desk<b>t</b>op companion."
-            className="special-font !md:text-[6.2rem] w-full font-zentry !text-5xl !font-black !leading-[.9]"
+            containerClass="special-font !md:text-[6.2rem] w-full font-zentry !text-5xl !font-black !leading-[.9]"
           />
 
           <Button title="meet the buddy" containerClass="mt-10 cursor-pointer" />
