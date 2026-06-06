@@ -56,3 +56,6 @@ ehthumbs.db
 Desktop.ini
 
 testsprite_tests\tmp\config.json
+
+# Agents
+.agents/
